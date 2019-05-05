@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         src: ['pub/js/*']
       },
       js:{
-        src: ['pub/*.html']
+        src: ['pub/article/*.html']
       }
     },
     concat : {
@@ -65,7 +65,8 @@ module.exports = function(grunt) {
         main: {
           files: [
             {expand: true, src: ['lib/*'], dest: 'pub/', filter: 'isFile'},
-            {expand: true, src: ['images/*'], dest: 'pub/', filter: 'isFile'}
+            {expand: true, src: ['images/*'], dest: 'pub/', filter: 'isFile'},
+            {expand: true, src: ['article/*/*'], dest: 'pub/'}
           ]
         }
     },
@@ -90,7 +91,7 @@ module.exports = function(grunt) {
     },
     watch:{
       html:{
-        files:['html_modules/*.html','article/*.html'],
+        files:['html_modules/*.html','article/**'],
         tasks:['clean','concat','uglify','cssmin','includereplace','replace','copy']
       }
     } 

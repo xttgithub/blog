@@ -2,44 +2,45 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>js原型链prototype-赵腾的博客</title>
-	<meta name="keywords" content="js原型链prototype web前端 h5 js css css3 html html5"/>
-	<meta name="description" content="js原型链prototype web前端 h5 js css css3 html html5" />
+	<title>blogTemplate-赵腾的博客</title>
+	<meta name="keywords" content="后端开发 java、collection、io/nio/aio、concurrent、jvm、spring-framework、spring-boot、spring-cloud、mysql"/>
+	<meta name="description" content="博客模版" />
 	<meta name = "format-detection" content = "telephone=no"> 
 	<link href="../images/favicon.ico" type="image/x-icon" rel="shortcut icon" /> 
 	<link href="../css/blog.min.css" type="text/css"  rel="stylesheet" />
 </head>
 <body>
-<script type="text/javascript">
-	var require = {urlArgs: "v=@@timestamp"}
-	var nowPage="prototype";
-</script>
-<script type="text/javascript" src="../lib/require.min.js" data-main="../js/blog.min"></script>
-<script>
-	require.config({
-		   paths: {
-　　　　　　    "zepto": "../lib/zepto.min"
-　　　　    }
-　　    });
-</script>
+	<script type="text/javascript">
+		var require = {urlArgs: "v=@@timestamp"}
+		var nowPage="blogTemplate";
+	</script>
+	<script type="text/javascript" src="../lib/require.min.js" data-main="../js/blog.min"></script>
+	<script>
+		require.config({
+			   paths: {
+	　　　　　　    "zepto": "../lib/zepto.min"
+	　　　　    }
+	　　    });
+	</script>
 	<div class="content">
-		<h1 class="title">js原型</h1>
-		<p class="titleFont">_proto_和prototype概念</p>
+		<h2>业精于勤，形成于思。</h2>
+		<h1 class="title">一级标题</h1>
+		<h2>概念</h2>
 		<p>1.在JS里，万物皆对象。方法（Function）是对象，方法的原型(Function.prototype)是对象。因此，它们都会具有对象共有的特点。即：对象具有属性__proto__，可称为隐式原型，一个对象的隐式原型指向构造该对象的构造函数的原型，这也保证了实例能够访问在构造函数原型中定义的属性和方法。</p>
 		<p>2.方法(Function)方法这个特殊的对象，除了和其他对象一样有上述_proto_属性之外，还有自己特有的属性——原型属性（prototype），这个属性是一个指针，指向一个对象，这个对象的用途就是包含所有实例共享的属性和方法（我们把这个对象叫做原型对象）。原型对象也有一个属性，叫做constructor，这个属性包含了一个指针，指回原构造函数。</p>
-		<p class="mes">下面这段代码，声明了一个函数Person，并且给他定义了两个方法see和go。</p>
+		<p class="keypoint">下面这段代码，声明了一个函数Person，并且给他定义了两个方法see和go。</p>
 		<pre>
-			function Person(){
-				var see=function(){
-				  alert("see")
-				}
-				var go=function(){
-				  alert("go")
-				}
-				this.prototype={see:see,go:go}
-			}
+	function Person(){
+		var see=function(){
+		  alert("see")
+		}
+		var go=function(){
+		  alert("go")
+		}
+		this.prototype={see:see,go:go}
+	}
 		</pre>
-		<p class="mes">FireFox公开了__proto__，可以在FireFox看到函数Person的prototype和_proto_</p>
+		<p class="keypoint">FireFox公开了__proto__，可以在FireFox看到函数Person的prototype和_proto_</p>
 		<p>看图说话：</p>
 		<div class="imgCon">
 			<img src="../images/proto.jpg" style="width:180px;margin-right:30px;">
@@ -51,47 +52,52 @@
 		<p>3.see和go是Person这个对象的两个实例，这两个对象也有属性__proto__，指向构造函数的原型对象，这样子就可以访问原型对象的所有方法啦。</p>
 		<p>4.构造函数Foo除了是方法，也是对象(在JS里，万物皆对象)，它也有__proto__属性，指向它的构造函数的原型对象。函数的构造函数就是Function，因此这里的__proto__指向了Function.prototype。</p>
 		<p>5.除了Foo()，Function(), Object()也是一样的道理。原型对象也是对象，它的__proto__属性，指向它的构造函数的原型对象。这里是Object.prototype,最后，Object.prototype的__proto__属性指向null。</p>
-		<p class="titleFont">原型链</p>
-		<p class="mes">如上面右图所示，把这个有__proto__串起来的直到Object.prototype.__proto__为null的链叫做原型链。原型链实际上就是js中数据继承的继承链。</p>
+		<h2>原型链</h2>
+		<p class="keypoint">如上面右图所示，把这个有__proto__串起来的直到Object.prototype.__proto__为null的链叫做原型链。原型链实际上就是js中数据继承的继承链。</p>
 		<p>理解了js原型继承的继承方式，下面来比较一下使用prototype属性定义的对象方法和直接定义在函数上的方法有什么区别，上代码：</p>
 		<pre>
-		    var dom = function(){    
-		    };
-		    dom.show = function(){
-		        alert("show");
-		    };
-		    dom.prototype.hidden = function(){
-		        alert("hidden");
-		    };
-		 
-		    dom.hidden(); //error
-		    dom.show();  
-		    var d = new dom();
-		    d.hidden();
-		    d.show(); //error
+	var dom = function(){    
+	};
+	dom.show = function(){
+	    alert("show");
+	};
+	dom.prototype.hidden = function(){
+	    alert("hidden");
+	};
+
+	dom.hidden(); //error
+	dom.show();  
+	var d = new dom();
+	d.hidden();
+	d.show(); //error
 		</pre>
 		<p>1、不使用prototype属性定义的对象方法，是自定义方法，只能直接用类名进行调用！实例化后不能继承该属性或方法，另外，自定义方法中无法使用this变量来调用对象其他的属性！</p>
 		<p>2、使用prototype属性定义的对象方法，是原型链上的方法，只有在实例化后继承该属性或方法才能使用！其方法内部可以this来引用对象自身中的其他属性!</p>
-		<p class="mes">那么如何区分某个属性是否挂在prototype上呢</p>
-		<p class="fontTitle">hasOwnProperty 函数</p>
+		<p class="keypoint">那么如何区分某个属性是否挂在prototype上呢</p>
+		<h2>hasOwnProperty 函数</h2>
 		<p>为了判断一个对象是否包含自定义属性而不是原型链上的属性， 我们需要使用继承自 Object.prototype 的 hasOwnProperty 方法。
 		<p>通过判断一个属性是否 undefined 是不够的。 因为一个属性可能确实存在，只不过它的值被设置为 undefined。hasOwnProperty 是 JavaScript 中唯一一个处理属性但是不查找原型链的函数。</p>
-		<p class="mes">所以上面的例子中</p>
+		<p class="keypoint">所以上面的例子中</p>
 		<pre>
-			dom.hasOwnProperty('show'); // true
-			foo.hasOwnProperty('hidden'); // false
+	dom.hasOwnProperty('show'); // true
+	foo.hasOwnProperty('hidden'); // false
 		</pre>
 		<p>但是JavaScript 不会保护 hasOwnProperty 被非法占用，因此如果一个对象碰巧存在这个属性， 就需要使用外部的 hasOwnProperty 函数来获取正确的结果。</p>
 		<pre>
-			var animal = {
-			    hasOwnProperty: function() {
-			        return false;
-			    },
-			    run: 'animal began to run'
-			};
-			animal.hasOwnProperty('run');// false
-			({}).hasOwnProperty.call(animal, 'run'); // true
+	var animal = {
+	    hasOwnProperty: function() {
+	        return false;
+	    },
+	    run: 'animal began to run'
+	};
+	animal.hasOwnProperty('run');// false
+	({}).hasOwnProperty.call(animal, 'run'); // true
 		</pre>
+		<div class="keypoint" >
+			<br/>
+			<p>转载请注明原地址，谢谢🙏</p>
+			<a href="https://github.com/xttgithub/blog/issues">欢迎大家反馈交流👏👏，如有疑问，请点这里进行留言！！！</a>
+		</div>
 	</div>
 	<div class="pagelist">@@include('../html_modules/list.html')</div>
 </body>
