@@ -100,14 +100,17 @@ h6 tt, h6 code {
 }
 
 h1 {
-  font-size: 28px;
-  color: black;
+  	padding:40px 0 30px 0;
+	font-family: Georgia, serif;
+	font-size: 48px;
+	text-shadow: 0 2px 2px #000;
 }
 
 h2 {
-  font-size: 24px;
-  border-bottom: 1px solid #cccccc;
-  color: black;
+  	font-size: 24px;
+  	color: black;color: orange;
+	font-size: 20px !important;
+	margin: 10px 0px !important;
 }
 
 h3 {
@@ -128,7 +131,9 @@ h6 {
 }
 
 p, blockquote, ul, ol, dl, li, table, pre {
-  margin: 15px 0;
+  	font-size:14px;
+	line-height: 20px;
+	margin:5px 0;
 }
 
 hr {
@@ -373,11 +378,13 @@ code, tt {
 }
 
 pre code {
-  margin: 0;
-  padding: 0;
-  white-space: pre;
-  border: none;
-  background: transparent;
+  	box-shadow:0 0 4px #566d82;
+	background: #2D394C;
+	padding:10px 0;
+	margin:10px 0;
+	color:#989B81;
+	max-height:350px;
+	overflow: auto;
 }
 
 .highlight pre {
@@ -391,13 +398,13 @@ pre code {
 }
 
 pre {
-  background-color: #f8f8f8;
-  border: 1px solid #cccccc;
-  font-size: 13px;
-  line-height: 19px;
-  overflow: auto;
-  padding: 6px 10px;
-  border-radius: 3px;
+  box-shadow:0 0 4px #566d82;
+	background: #2D394C;
+	padding:10px 0;
+	margin:10px 0;
+	color:#989B81;
+	max-height:350px;
+	overflow: auto;
 }
 
 pre code, pre tt {
