@@ -77,10 +77,6 @@ module.exports = function(grunt) {
               {
                 match: 'timestamp',
                 replacement: '<%= new Date().getTime() %>'
-              },
-              {
-                match: 'fileAddress',
-                replacement: ''
               }
             ]
           },
