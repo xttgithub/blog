@@ -66,7 +66,8 @@ module.exports = function(grunt) {
           files: [
             {expand: true, src: ['lib/*'], dest: 'pub/', filter: 'isFile'},
             {expand: true, src: ['images/*'], dest: 'pub/', filter: 'isFile'},
-            {expand: true, src: ['article/*/*'], dest: 'pub/'}
+            {expand: true, src: ['article/*/*'], dest: 'pub/'},
+            {expand: true, src: ['js/*.md'], dest: 'pub/', filter: 'isFile'},
           ]
         }
     },

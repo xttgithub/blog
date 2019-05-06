@@ -1,8 +1,8 @@
-define(["zepto"],function($){
+define([],function(){
 	if(nowPage){
-	    $("#listPage").find("#"+nowPage).addClass("active");
+	    $("#pageList").find("#"+nowPage).addClass("active");
 	}else{
-		$("#listPage").find("#prototype").addClass("active");
+		$("#pageList").find("#blogTemplate").addClass("active");
 	}
     $('body').delegate('.linkTab','click',function(){
         var tag=$(this).attr("id");
@@ -12,4 +12,7 @@ define(["zepto"],function($){
 	        location.href=tag+".html";
 	    }
     })
+    $.get('index.md', function(response, status, xhr){
+        $("#markdownContent").html(marked(response));
+    });
 })
