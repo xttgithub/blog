@@ -1,42 +1,27 @@
-/** 重置style **/
-html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input,abbr,article,aside,command,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,button{margin:0;padding:0;}
-h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,em,strong,th,figcaption {font-weight: normal;font-style:normal;word-wrap:break-word;}
-ul,li,dl,dt,dd {list-style:none;}
-fieldset,iframe,img{border:0;}
-i,cite,em,var,address{font-style:normal;}
-caption,th{text-align:left;}
-table{border-collapse:collapse;border-spacing:0;}
-article,aside,footer,header,hgroup,nav,section,figure,figcaption,video{display: block;}
-a{color:#FFA500;cursor: pointer;}
-a:hover{color:#ffc76d;}
-input{outline:0;border:0;}
-::scrollbar{
-	width:0px;
-	height:0px;
-}
-::-webkit-scrollbar{
-	width:0px;
-	height:0px;
-}
-::-o-scrollbar{
-	width:0px;
-	height:0px;
-}
-::-moz-scrollbar{
-	width:0px;
-	height:0px;
-}
-body{
-	background:#0d2e4c;
-	color:#e6eaed;
-	word-wrap:break-word;
+body {
 	width: 1000px;
 	margin:auto;
 	position: relative;
-	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+	font-family: Helvetica, arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.6;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	background-color: white;
+	padding: 30px;
+	color: #333;
 }
+
 .content{
 	width:650px;
+}
+
+body > *:first-child {
+  margin-top: 0 !important;
+}
+
+body > *:last-child {
+  margin-bottom: 0 !important;
 }
 
 a {
@@ -102,17 +87,14 @@ h6 tt, h6 code {
 }
 
 h1 {
-  	padding:40px 0 30px 0;
-	font-family: Georgia, serif;
-	font-size: 48px;
-	text-shadow: 0 2px 2px #000;
+  font-size: 28px;
+  color: black;
 }
 
 h2 {
-  	font-size: 24px;
-  	color: black;color: orange;
-	font-size: 20px !important;
-	margin: 10px 0px !important;
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black;
 }
 
 h3 {
@@ -133,9 +115,7 @@ h6 {
 }
 
 p, blockquote, ul, ol, dl, li, table, pre {
-  	font-size:14px;
-	line-height: 20px;
-	margin:5px 0;
+  margin: 15px 0;
 }
 
 hr {
@@ -380,12 +360,11 @@ code, tt {
 }
 
 pre code {
-	background: #2D394C;
-	padding:10px 0;
-	margin:10px 0;
-	color:#989B81;
-	max-height:350px;
-	overflow: auto;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
 }
 
 .highlight pre {
@@ -399,13 +378,13 @@ pre code {
 }
 
 pre {
-  box-shadow:0 0 4px #566d82;
-	background: #2D394C;
-	padding:10px 0;
-	margin:10px 0;
-	color:#989B81;
-	max-height:350px;
-	overflow: auto;
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
 }
 
 pre code, pre tt {
@@ -467,3 +446,4 @@ pre code, pre tt {
 	display: inline-block;
 	vertical-align: middle;
 }
+
