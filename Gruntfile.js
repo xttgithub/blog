@@ -1,5 +1,4 @@
 module.exports = function(grunt) {
-
   'use strict';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -12,7 +11,7 @@ module.exports = function(grunt) {
         src: ['pub/js/*']
       },
       js:{
-        src: ['pub/article/*']
+        src: ['pub/article/**']
       },
       js:{
         src: ['pub/images/*']
@@ -69,7 +68,8 @@ module.exports = function(grunt) {
           files: [
             {expand: true, src: ['lib/*'], dest: 'pub/', filter: 'isFile'},
             {expand: true, src: ['images/*'], dest: 'pub/', filter: 'isFile'},
-            {expand: true, src: ['article/*.md'], dest: 'pub/'}
+            {expand: true, src: ['article/*.md'], dest: 'pub/'},
+            {expand: true, src: ['article/*/**'], dest: 'pub/'}
           ]
         }
     },
