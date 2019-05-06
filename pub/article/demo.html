@@ -7,75 +7,24 @@
 	<meta name="description" content="博客模版" />
 	<meta name = "format-detection" content = "telephone=no"> 
 	<link href="../images/favicon.ico" type="image/x-icon" rel="shortcut icon" /> 
-	<link href="../css/blog.min.css" type="text/css"  rel="stylesheet" />
+	<link href="../css/github.css" type="text/css"  rel="stylesheet" />
 </head>
 <body>
 	<script type="text/javascript">
 		var require = {urlArgs: "v=@@timestamp"}
-		var nowPage="blogTemplate";
+		var nowPage="demo";
 	</script>
-	<script src="../lib/jquery.min.js"></script>
-	<script src="../lib/marked.min.js"></script>
+	<script type="text/javascript" src="../lib/jquery.min.js"></script>
+	<script type="text/javascript" src="../lib/marked.min.js"></script>
 	<script type="text/javascript" src="../lib/require.min.js" data-main="../js/blog.min"></script>
-	<div class="content" id="markdownContent"></div>
-	<div class="content">
-		<div><div id="footer" >
+	<div><div id="footer" >
 	<h2>业精于勤，形成于思。</h2>
 </div></div>
-		<h1>一级标题</h1>
-		<h2>二级标题</h2>
-		<p>段落一</p>
-		<p>段落二</p>
-		<p class="keypoint">
-			关键点：<br/>
-			1、<br/>
-			2、<br/>
-			3<br/>
-		</p>
-		<pre>
-	function Person(){
-		var see=function(){
-		  alert("see")
-		}
-		var go=function(){
-		  alert("go")
-		}
-		this.prototype={see:see,go:go}
-	}
-		</pre>
-		<p>看图说话：</p>
-		<div class="imgCon">
-			<img src="../images/proto.jpg" style="width:180px;margin-right:30px;">
-			<img src="../images/prototype.png" style="width: 250px;">
-		</div>
-		<p>详解：</p>
-		<p>步骤一</p>
-		<p>步骤二</p>
-		<p>步骤三</p>
-		
-		<h2>二级标题</h2>
-		<P>段落，上代码：</p>
-		<pre>
-	var dom = function(){    
-	};
-	dom.show = function(){
-	    alert("show");
-	};
-	dom.prototype.hidden = function(){
-	    alert("hidden");
-	};
-
-	dom.hidden(); //error
-	dom.show();  
-	var d = new dom();
-	d.hidden();
-	d.show(); //error
-		</pre>
-		<div class="keypoint" ><div id="footer" >
+	<div id="markdownContent"></div>
+	<div class="keypoint" ><div id="footer" >
 	<p>转载请注明原地址，谢谢🙏</p>
 	<a href="https://github.com/xttgithub/blog/issues">欢迎大家反馈交流👏👏，如有疑问，请点这里进行留言！！！</a>
 </div></div>
-	</div>
 	<div class="pagelist"><div id="pageList">
 	<h2>Java Core</h2>
 	<div class="listCon">

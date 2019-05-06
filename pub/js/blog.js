@@ -12,7 +12,8 @@ define([],function(){
 	        location.href=tag+".html";
 	    }
     })
-    $.get('./index.md', function(response, status, xhr){
+    var pageName = locationStr.substring(locationStr.lastIndexOf('/') + 1,locationStr.lastIndexOf('.html'));
+    $.get('./' + pageName +'.md', function(response, status, xhr){
         $("#markdownContent").html(marked(response));
     });
 })
