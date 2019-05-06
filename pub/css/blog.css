@@ -93,7 +93,6 @@ h1 {
 
 h2 {
   font-size: 24px;
-  border-bottom: 1px solid #cccccc;
   color: black;
 }
 
@@ -412,7 +411,6 @@ pre code, pre tt {
 }
 .pagelist .active,.pagelist p:hover{
 	color:#ffc76d;
-	background: #344f68;
 }
 .pagelist p:last-child{
 	border-bottom: none;
@@ -423,10 +421,6 @@ pre code, pre tt {
 }
 .listCon{
 	font-size: 14px;
-	background:#556c81;
-}
-.linkTab{
-	
 }
 .moneyCon{
 	text-align: center;
