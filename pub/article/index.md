@@ -9,5 +9,5 @@
 ## 导航
 反馈交流有如下方式：
 1. [点击留言](https://github.com/xttgithub/blog/issues)
-2. 加我的微信：zhaotengjason
+2. 加我微信：zhaotengjason
 
