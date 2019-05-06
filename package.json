@@ -1,8 +1,8 @@
 {
-  "name": "pcreader",
+  "name": "blog",
   "version": "1.0.0",
-  "description": "赵腾的博客项目脚手架",
-  "author": "liyan",
+  "description": "赵腾的博客项目",
+  "author": "zhaoteng",
   "license": "MIT",
   "engines": {
     "node": ">= 0.10.0"

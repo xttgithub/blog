@@ -10,18 +10,6 @@
 	<link href="../css/blog.min.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-	<script type="text/javascript">
-		var nowPage="good";
-		var require = {urlArgs: "v=1557140396613"}
-	</script>
-	<script type="text/javascript" src="../lib/require.min.js" data-main="../js/blog.min"></script>
-	<script>
-		require.config({
-			   paths: {
-	　　　　　　    "zepto": "../lib/zepto.min"
-	　　　　    }
-	　　    });
-	</script>
 	<div class="content">
 		<h1 class="title">赞助打赏</h1>
 		<p>如果您读后感觉收获很大，不妨小额赞助鼓励我一下，宝宝会继续努力写出更多好文。</p>
@@ -88,7 +76,12 @@
 	<div class="listCon">
 		<p class="linkTab" href="https://time.geekbang.org/column/intro/48" id="other">其它</p>
 	</div>
-	<p class="linkTab good" id="good">good</p>
+	<p class="linkTab good" href='good.html?tag=good'>good</p>
 </div></div>
+
+	<!-- 加载js文件 -->
+	<script type="text/javascript" src="../lib/jquery.min.js"></script>
+	<script type="text/javascript" src="../lib/marked.min.js"></script>
+	<script type="text/javascript" src="../js/blog.min.js?v=1557148134027"></script>
 </body>
 </html>

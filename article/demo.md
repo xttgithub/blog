@@ -1,11 +1,39 @@
-# 一级标题
-内容大发大发范德萨发啊发发生的
+Heading
+=======
 
-## 二级标题
-大师分手大师书法
+## Sub-heading
 
-```
-dsafdasfaf
-```
+Paragraphs are separated
+by a blank line.
 
->的手机发了疯了；大啦发的啊
+Two spaces at the end of a line  
+produces a line break.
+
+Text attributes _italic_, 
+**bold**, `monospace`.
+
+Horizontal rule:
+
+---
+
+Bullet list:
+
+  * apples
+  * oranges
+  * pears
+
+Numbered list:
+
+  1. wash
+  2. rinse
+  3. repeat
+
+A [link](example).
+
+  [example]: http://example.com
+
+![Image](Icon-pictures.png "icon")
+
+> Markdown uses email-style > characters for blockquoting.
+
+Inline <abbr title="Hypertext Markup Language">HTML</abbr> is supported.

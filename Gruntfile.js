@@ -12,7 +12,10 @@ module.exports = function(grunt) {
         src: ['pub/js/*']
       },
       js:{
-        src: ['pub/article/*.html']
+        src: ['pub/article/*']
+      },
+      js:{
+        src: ['pub/images/*']
       }
     },
     concat : {
