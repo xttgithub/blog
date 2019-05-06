@@ -12,6 +12,7 @@ define([],function(){
 	        location.href=tag+".html";
 	    }
     })
+    var locationStr = location.pathname;
     var pageName = locationStr.substring(locationStr.lastIndexOf('/') + 1,locationStr.lastIndexOf('.html'));
     $.get('./' + pageName +'.md', function(response, status, xhr){
         $("#markdownContent").html(marked(response));
