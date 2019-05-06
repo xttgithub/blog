@@ -81,7 +81,7 @@ module.exports = function(grunt) {
             ]
           },
           files: [
-            {expand: true, flatten: true,src: ['pub/*.html'], dest: 'pub/'}
+            {expand: true, flatten: true,src: ['pub/article/*.html'], dest: 'pub/article/'}
           ]
         }
     },
