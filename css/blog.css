@@ -426,7 +426,7 @@ pre code, pre tt {
 	background: #d6dae6;
 }
 .pagelist .active,.pagelist p:hover{
-	color:#ffc76d;
+	color:#0d1429;
 	background: #bac2d8;
 }
 .pagelist p:last-child{
@@ -446,10 +446,12 @@ pre code, pre tt {
 .moneyCon img{
 	width:150px;
 }
-.moneyCon p{font-size: 14px;
-	text-shadow:0 2px 2px #6E6207;
-	color:#8BA5D2;
-	margin:10px 0 15px 0;}
+.moneyCon p{
+  font-size: 14px;
+  text-shadow: 0 2px 2px #0c0c0c;
+  color: #29292d;
+  margin: 10px 0 15px;
+}
 .imgCon{
 	text-align: center;
 }
