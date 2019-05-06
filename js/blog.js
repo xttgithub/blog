@@ -12,7 +12,7 @@ define([],function(){
 	        location.href=tag+".html";
 	    }
     })
-    $.get('index.md', function(response, status, xhr){
+    $.get('./index.md', function(response, status, xhr){
         $("#markdownContent").html(marked(response));
     });
 })
