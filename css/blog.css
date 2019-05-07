@@ -46,7 +46,7 @@
 
 .markdown-body {
   width: 1000px;
-  margin:auto;
+  margin: auto;
   position: relative;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -1023,12 +1023,10 @@
 .front{
     width: 650px;
     font-size: 20px;
-    margin:0;
     color: #8e6721;
     border-bottom:solid 1px #a5afcc;
 }
 .footer{
-    margin:30px 0 0;
     color: #ff0000;
 }
 
