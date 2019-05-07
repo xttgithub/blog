@@ -21,17 +21,11 @@ $(document).ready(function(){
     };
     var nowPage = getQueryUrlString("tag") || "index";
     $("#pageList").find("#" + nowPage).addClass("active");
-    
-    //定义markdown文件夹数组
-    var arr = ["./md/","./md/java/","./md/spring/","./md/other/"];
-    for (var i = 0; i < arr.length; i++) {
-        var filePath = arr[i] + nowPage + '.md';
-        $.get(filePath, function(response, status, xhr){
-            if(status == 200){
-                $("#markdownContent").html(marked(response));
-            }
-        });
-    }
+
+    var filePath = "./md/" + nowPage + '.md';
+    $.get(filePath, function(response, status, xhr){
+        $("#markdownContent").html(marked(response));
+    });
     
 })
 
