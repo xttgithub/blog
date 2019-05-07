@@ -30,15 +30,15 @@ $(document).ready(function(){
 
 function findFilePath(nowPage) {
     var localUrl = './md/' + nowPage + '.md';
-    if(!isExistFile(localUrl)){
-        localUrl = './md/java/' + nowPage + '.md';
-    }
-    if(!isExistFile(localUrl)){
-        localUrl = './md/spring/' + nowPage + '.md';
-    }
-    if(!isExistFile(localUrl)){
-        localUrl = './md/other/' + nowPage + '.md';
-    }
+    // if(!isExistFile(localUrl)){
+    //     localUrl = './md/java/' + nowPage + '.md';
+    // }
+    // if(!isExistFile(localUrl)){
+    //     localUrl = './md/spring/' + nowPage + '.md';
+    // }
+    // if(!isExistFile(localUrl)){
+    //     localUrl = './md/other/' + nowPage + '.md';
+    // }
 
     return localUrl;
 }
