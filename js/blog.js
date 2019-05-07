@@ -26,20 +26,12 @@ $(document).ready(function(){
     var arr = ["./md/","./md/java/","./md/spring/","./md/other/"];
     for (var i = 0; i < arr.length; i++) {
         var filePath = arr[i] + nowPage + '.md';
-        if (renderMarkdown(filePath)) {
-            break;
-        }
+        $.get(filePath, function(response, status, xhr){
+            if(status == 200){
+                $("#markdownContent").html(marked(response));
+            }
+        });
     }
     
 })
-
-function renderMarkdown(filePath) {
-    $.get(filePath, function(response, status, xhr){
-        if(status == 200){
-            $("#markdownContent").html(marked(response));
-            return true;
-        }
-    });
-    return false;
-}
 
