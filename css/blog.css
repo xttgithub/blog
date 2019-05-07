@@ -50,6 +50,9 @@
 }
 
 .markdown-body {
+  width: 1000px;
+  margin:auto;
+  position: relative;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   color: #24292e;
@@ -58,6 +61,24 @@
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
+}
+.cf:before, .cf:after {
+  content: " ";
+  display: table;
+}
+.cf:after {
+  clear: both;
+}
+.fr{
+  float: right;
+  vertical-align:middle;
+}
+.fl{
+  float: left;
+  vertical-align:middle;
+}
+.content{
+  width:650px;
 }
 
 .markdown-body .pl-c {
@@ -955,3 +976,52 @@
 .markdown-body .pl-12 {
   padding-left: 128px!important;
 }
+
+.pagelist{
+  float: right;
+  top:50px;
+  right:0;
+  position: absolute;
+  width:200px;
+  max-height: 850px;
+  overflow: auto;
+}
+.pagelist h2{
+  font-size: 20px;
+  margin: 30px 0 15px;
+}
+.pagelist p{
+  border-bottom:solid 1px #a5afcc;
+  padding:10px 20px;
+  cursor:pointer;
+  margin:0;
+  background: #d6dae6;
+}
+.pagelist .active,.pagelist p:hover{
+  color:#0d1429;
+  background: #bac2d8;
+}
+.pagelist p:last-child{
+  border-bottom: none;
+}
+.pagelist .good{
+  background: url(../images/like.png) 70px center no-repeat!important;
+  background-size: 20px auto!important;
+}
+.listCon{
+  font-size: 14px;
+}
+.moneyCon{
+  text-align: center;
+  margin: 20px 0 0;
+}
+.moneyCon img{
+  width:150px;
+}
+.moneyCon p{
+  font-size: 14px;
+  text-shadow: 0 2px 2px #0c0c0c;
+  color: #29292d;
+  margin: 10px 0 15px;
+}
+
