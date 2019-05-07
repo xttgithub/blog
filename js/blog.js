@@ -24,7 +24,7 @@ $(document).ready(function(){
     
     //定义markdown文件夹数组
     var arr = ["./md/","./md/java/","./md/spring/","./md/other/"];
-    for (var i = 0, length = arr.length; i < length; i++) {
+    for (var i = 0; i < arr.length; i++) {
         var filePath = arr[i] + nowPage + '.md';
         if (renderMarkdown(filePath)) {
             break;
