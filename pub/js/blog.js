@@ -21,7 +21,33 @@ $(document).ready(function(){
     };
     var nowPage = getQueryUrlString("tag") || "index";
     $("#pageList").find("#" + nowPage).addClass("active");
-    $.get('./' + nowPage + '.md', function(response, status, xhr){
+
+    $.get(findFilePath(nowPage), function(response, status, xhr){
         $("#markdownContent").html(marked(response));
     });
 })
+
+
+function findFilePath(nowPage) {
+    var localUrl = './md/' + nowPage + '.md';
+    if(!isExistFile(localUrl)){
+        localUrl = './md/java/' + nowPage + '.md';
+    }
+    if(!isExistFile(localUrl)){
+        localUrl = './md/spring/' + nowPage + '.md';
+    }
+    if(!isExistFile(localUrl)){
+        localUrl = './md/other/' + nowPage + '.md';
+    }
+
+    return localUrl;
+}
+
+function isExistFile(filePath) {
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    if (fso.FileExists(filePath)) {
+        return true;
+    }else{
+        return false;
+    }
+}
