@@ -21,33 +21,25 @@ $(document).ready(function(){
     };
     var nowPage = getQueryUrlString("tag") || "index";
     $("#pageList").find("#" + nowPage).addClass("active");
-
-    $.get(findFilePath(nowPage), function(response, status, xhr){
-        $("#markdownContent").html(marked(response));
-    });
+    
+    //定义markdown文件夹数组
+    var arr = ["./md/","./md/java/","./md/spring/","./md/other/"];
+    for (var i = 0, length = arr.length; i < length; i++) {
+        var filePath = arr[i] + nowPage + '.md';
+        if (renderMarkdown(filePath)) {
+            break;
+        }
+    }
+    
 })
 
-
-function findFilePath(nowPage) {
-    var localUrl = './md/' + nowPage + '.md';
-    // if(!isExistFile(localUrl)){
-    //     localUrl = './md/java/' + nowPage + '.md';
-    // }
-    // if(!isExistFile(localUrl)){
-    //     localUrl = './md/spring/' + nowPage + '.md';
-    // }
-    // if(!isExistFile(localUrl)){
-    //     localUrl = './md/other/' + nowPage + '.md';
-    // }
-
-    return localUrl;
+function renderMarkdown(filePath) {
+    $.get(filePath, function(response, status, xhr){
+        if(status == 200){
+            $("#markdownContent").html(marked(response));
+            return true;
+        }
+    });
+    return false;
 }
 
-function isExistFile(filePath) {
-    var fso = new ActiveXObject("Scripting.FileSystemObject");
-    if (fso.FileExists(filePath)) {
-        return true;
-    }else{
-        return false;
-    }
-}
