@@ -1,0 +1,38 @@
+html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input,abbr,article,aside,command,details,figcaption,figure,footer,header,hgroup,mark,meter,nav,output,progress,section,summary,time,button{margin:0;padding:0;}
+h1,h2,h3,h4,h5,h6,pre,code,address,caption,cite,code,em,strong,th,figcaption {font-weight: normal;font-style:normal;word-wrap:break-word;}
+ul,li,dl,dt,dd {list-style:none;}
+fieldset,iframe,img{border:0;}
+i,cite,em,var,address{font-style:normal;}
+caption,th{text-align:left;}
+table{border-collapse:collapse;border-spacing:0;}
+article,aside,footer,header,hgroup,nav,section,figure,figcaption,video{display: block;}
+a{color:#FFA500;cursor: pointer;}
+a:hover{color:#ffc76d;}
+input{outline:0;border:0;}
+::scrollbar{width:0px;height:0px;}
+::-webkit-scrollbar{width:0px;height:0px;}
+::-o-scrollbar{width:0px;height:0px;}
+::-moz-scrollbar{width:0px;height:0px;}
+.cf:before, .cf:after {content: " ";display: table;}
+.cf:after {clear: both;}
+.fr{float: right;vertical-align:middle;}
+.fl{float: left;vertical-align:middle;}
+body{background:#0d2e4c;color:#e6eaed;word-wrap:break-word;width: 1000px;margin:auto;position: relative;font-family: Georgia, "Nimbus Roman No9 L", "Liberation Serif", serif;}
+pre{box-shadow:0 0 4px #566d82;background: #2D394C;padding:10px 0;margin:10px 0;color:#989B81;max-height:350px;overflow: auto;}
+.content{width:550px;}
+.content p{font-size:14px;line-height: 20px;margin:5px 0;}
+h1{padding:40px 0 30px 0;font-family: Georgia, serif;font-size: 75px;text-shadow: 0 2px 2px #000;}
+h2{margin: 30px 0 15px;}
+.pagelist{float: right;top:50px;right:0;position: absolute;width:200px;}
+.listCon{background:#556c81;}
+.pagelist p{border-bottom:solid 1px #6e8294;padding:10px 20px;cursor:pointer;}
+.pagelist .active,.pagelist p:hover{color:#ffc76d;background: #344f68;}
+.pagelist p:last-child{border-bottom: none;}
+.pagelist .good{background: url(../images/like.png) 70px center no-repeat!important;background-size: 20px auto!important;}
+.moneyCon{text-align: center;margin: 20px 0 0;}
+.moneyCon img{width:150px;}
+.moneyCon p{font-size: 14px;text-shadow:0 2px 2px #6E6207;color:#8BA5D2;margin:10px 0 15px 0;}
+.titleFont{font-size: 20px!important;color:#FFA500;margin: 10px 0!important;}
+.mes{color:#E8C48B;margin: 10px 0!important;}
+.imgCon{text-align: center;}
+.imgCon img{display: inline-block;vertical-align: middle;}
