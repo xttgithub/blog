@@ -19,7 +19,7 @@ $(document).ready(function(){
           , c = window.location.search.substr(1).match(b);
         return null  != c ? decodeURIComponent(c[2]) : null 
     };
-    var nowPage = getQueryUrlString("tag") || "index";
+    var nowPage = getQueryUrlString("tag") || "javaCore";
     $("#pageList").find("#" + nowPage).addClass("active");
 
     var filePath = "./md/" + nowPage + '.md';

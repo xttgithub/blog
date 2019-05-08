@@ -1000,10 +1000,6 @@
 .pagelist p:last-child{
   border-bottom: none;
 }
-.pagelist .good{
-  background: url(../images/like.png) 70px center no-repeat!important;
-  background-size: 20px auto!important;
-}
 .listCon{
   font-size: 14px;
 }
@@ -1020,13 +1016,17 @@
   color: #29292d;
   margin: 10px 0 15px;
 }
+.footer{
+    color: #ff0000;
+}
 .front{
     width: 650px;
     font-size: 18px;
     color: #8e6721;
     border-bottom:solid 1px #a5afcc;
 }
-.footer{
-    color: #ff0000;
+.pagelist .good{
+  background: url(../images/like.png) 70px center no-repeat!important;
+  background-size: 20px auto!important;
 }
 
