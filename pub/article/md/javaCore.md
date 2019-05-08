@@ -168,13 +168,15 @@ Linux 上依赖于 epoll（http://hg.openjdk.java.net/jdk/jdk/file/d8327f838b88/
 Windows 上 NIO2（AIO）模式则是依赖于 iocp（http://hg.openjdk.java.net/jdk/jdk/file/d8327f838b88/src/java.base/windows/classes/sun/nio/ch/Iocp.java）。
 
 - Chartset，提供 Unicode 字符串定义，NIO 也提供了相应的编解码器等，例如，通过下面的方式进行字符串到 ByteBuffer 的转换：
-```
-Charset.defaultCharset().encode("Hello world!"));
 
 ```
+Charset.defaultCharset().encode("Hello world!"));
+```
+
 
 ##### NIO 多路复用
 **实现一个服务器应用（BIO方式）：**
+
 ```
 serverSocket = new ServerSocket(0);
 executor = Executors.newFixedThreadPool(8);
@@ -192,7 +194,9 @@ executor = Executors.newFixedThreadPool(8);
 
 如果连接数并不是非常多，只有最多几百个连接的普通应用，这种模式往往可以工作的很好。但是，如果连接数量急剧上升，这种实现方式就无法很好地工作了，因为线程上下文切换开销会在高并发时变得很明显，这是同步阻塞方式的低扩展性劣势。
 
+
 **实现一个服务器应用（NIO方式，即多路复用）：**
+
 ```
 public class NIOServer extends Thread {
     public void run() {
@@ -227,6 +231,7 @@ public class NIOServer extends Thread {
 
 ```
 
+
 这个非常精简的样例掀开了 NIO 多路复用的面纱，我们可以分析下主要步骤和元素：
 - 首先，通过 Selector.open() 创建一个 Selector，作为类似调度员的角色。
 - 然后，创建一个 ServerSocketChannel，并且向 Selector 注册，通过指定 SelectionKey.OP_ACCEPT，告诉调度员，它关注的是新的连接请求。**注意**，为什么我们要明确配置非阻塞模式呢？这是因为阻塞模式下，注册操作是不允许的，会抛出 IllegalBlockingModeException 异常。
@@ -236,7 +241,9 @@ public class NIOServer extends Thread {
 可以看到，在前面两个样例中，IO 都是同步阻塞模式，所以需要多线程以实现多任务处理。而 NIO 则是利用了单线程轮询事件的机制，通过高效地定位就绪的 Channel，来决定做什么，仅仅 select 阶段是阻塞的，可以有效避免大量客户端连接时，频繁线程切换带来的问题，应用的扩展能力有了非常大的提高。下面这张图对这种实现思路进行了形象地说明。
 ![](../../images/javaCore/nioServer.png)
 
+
 **实现一个服务器应用（AIO方式）：** 
+
 ```
 AsynchronousServerSocketChannel serverSock = AsynchronousServerSocketChannel.open().bind(sockAddr);
 serverSock.accept(serverSock, new CompletionHandler<>() { // 为异步操作指定 CompletionHandler 回调函数
@@ -260,6 +267,7 @@ serverSock.accept(serverSock, new CompletionHandler<>() { // 为异步操作指�
 ### Java有几种文件拷贝方式？哪一种最高效？
 Java 有多种比较典型的文件拷贝实现方式，比如：
 1. 利用 java.io 类库，直接为源文件构建一个 FileInputStream 读取，然后再为目标文件构建一个 FileOutputStream，完成写入工作。
+
 ```
 public static void copyFileByStream(File source, File dest) throws IOException {
     try (InputStream is = new FileInputStream(source);
@@ -274,7 +282,9 @@ public static void copyFileByStream(File source, File dest) throws IOException {
 
 ```
 
+
 2. 利用 java.nio 类库提供的 transferTo 或 transferFrom 方法实现。
+
 ```
 public static void copyFileByChannel(File source, File dest) throws IOException {
     try (FileChannel sourceChannel = new FileInputStream(source).getChannel();
@@ -288,6 +298,7 @@ public static void copyFileByChannel(File source, File dest) throws IOException 
  }
 
 ```
+
 
 3. Java 标准类库本身已经提供了几种 Files.copy 的实现。
 
@@ -371,6 +382,7 @@ IO 框架，我们知道 InputStream 是一个抽象类，标准类库中提供�
 ![](../../images/javaCore/inputStream.png)
 
 创建型模式尤其是工厂模式，在我们的代码中随处可见，举个相对不同的 API 设计实践。比如，JDK 最新版本中 HTTP/2 Client API，下面这个创建 HttpRequest 的过程，就是典型的构建器模式（Builder），通常会被实现成fluent 风格的 API，也有人叫它方法链。
+
 ```
 HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                      .header(headerAlice, valueAlice)
@@ -381,9 +393,12 @@ HttpRequest request = HttpRequest.newBuilder(new URI(uri))
                      .build();
 
 ```
+
+
 使用构建器模式，可以比较优雅地解决构建复杂对象的麻烦，这里的“复杂”是指类似需要输入的参数组合较多，如果用构造函数，我们往往需要为每一种可能的输入参数组合实现相应的构造函数，一系列复杂的构造函数会让代码阅读性和可维护性变得很差。
 
 单例模式：
+
 ```
 public class Singleton {
 	private static volatile Singleton singleton = null;
@@ -403,6 +418,7 @@ public class Singleton {
 }
 
 ```
+
 
 Spring 在 API 设计中使用的设计模式：
 - BeanFactory 和 ApplicationContext 应用了工厂模式。
