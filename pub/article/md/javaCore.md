@@ -971,6 +971,280 @@ final void setArray(Object[] a) {
 ---
 ### 并发包中的ConcurrentLinkedQueue和LinkedBlockingQueue有什么区别？
 
+- Concurrent 类型基于 lock-free (基于CAS)，在常见的多线程访问场景，一般可以提供较高吞吐量。
+- 而 LinkedBlockingQueue 内部则是基于锁，并提供了 BlockingQueue 的等待性方法。
+
+
+常见的集合中如 LinkedList 是个 Deque，只不过不是线程安全的。下面这张图是 Java 并发类库提供的各种各样的**线程安全**队列实现，注意，图中并未将非线程安全部分包含进来。
+![](../../images/javaCore/safeQueue.png)
+
+
+我们可以从不同的角度进行分类，从基本的数据结构的角度分析，有两个特别的[Deque](https://docs.oracle.com/javase/9/docs/api/java/util/Deque.html)实现，ConcurrentLinkedDeque 和 LinkedBlockingDeque。Deque 的侧重点是支持对队列头尾都进行插入和删除，所以提供了特定的方法，如:
+
+- 尾部插入时需要的 addLast(e)、offerLast(e)。
+- 尾部删除所需要的 removeLast()、pollLast()。
+
+
+从行为特征来看，绝大部分 Queue 都是实现了 BlockingQueue 接口。在常规队列操作基础上，Blocking 意味着其提供了特定的等待性操作，获取时（take）等待元素进队（队列非空），或者插入时（put）等待队列出现空位（队列不满）。
+
+```
+ /**
+ * 获取并移除队列头结点，如果必要，其会等待直到队列出现元素
+	…
+ */
+E take() throws InterruptedException;
+
+/**
+ * 插入元素，如果队列已满，则等待直到队列出现空闲空间
+   …
+ */
+void put(E e) throws InterruptedException;  
+
+```
+
+
+另一个 BlockingQueue 经常被考察的点，就是是否有界（Bounded、Unbounded），这一点也往往会影响我们在应用开发中的选择，我这里简单总结一下。
+
+- ArrayBlockingQueue 是最典型的的有界队列，其内部以 final 的数组保存数据，数组的大小就决定了队列的边界，所以我们在创建 ArrayBlockingQueue 时，都要指定容量，如：`public ArrayBlockingQueue(int capacity, boolean fair)`
+- LinkedBlockingQueue，容易被误解为无边界，但其实其行为和内部代码都是基于有界的逻辑实现的，只不过如果我们没有在创建队列时就指定容量，那么其容量限制就自动被设置为 Integer.MAX_VALUE，成为了无界队列。
+- SynchronousQueue，这是一个非常奇葩的队列实现，每个删除操作都要等待插入操作，反之每个插入操作也都要等待删除动作。那么这个队列的容量是多少呢？是 1 吗？其实不是的，其内部容量是 0。
+- PriorityBlockingQueue 是无边界的优先队列，虽然严格意义上来讲，其大小总归是要受系统资源影响。
+- DelayedQueue 和 LinkedTransferQueue 同样是无边界的队列。对于无边界的队列，有一个自然的结果，就是 put 操作永远也不会发生其他 BlockingQueue 的那种等待情况。
+
+
+如果我们分析不同队列的底层实现，BlockingQueue 基本都是基于锁实现，一起来看看典型的 LinkedBlockingQueue。
+
+```
+/** Lock held by take, poll, etc */
+private final ReentrantLock takeLock = new ReentrantLock();
+
+/** Wait queue for waiting takes */
+private final Condition notEmpty = takeLock.newCondition();
+
+/** Lock held by put, offer, etc */
+private final ReentrantLock putLock = new ReentrantLock();
+
+/** Wait queue for waiting puts */
+private final Condition notFull = putLock.newCondition();
+
+```
+
+
+在介绍 ReentrantLock 的条件变量用法的时候分析过 ArrayBlockingQueue，不知道你有没有注意到，其条件变量与 LinkedBlockingQueue 版本的实现是有区别的。notEmpty、notFull 都是同一个再入锁的条件变量，而 LinkedBlockingQueue 则改进了锁操作的粒度，头、尾操作使用不同的锁，所以在通用场景下，它的吞吐量相对要更好一些。
+
+下面的 take 方法与 ArrayBlockingQueue 中的实现，也是有不同的，由于其内部结构是链表，需要自己维护元素数量值，请参考下面的代码。
+
+```
+public E take() throws InterruptedException {
+    final E x;
+    final int c;
+    final AtomicInteger count = this.count;
+    final ReentrantLock takeLock = this.takeLock;
+    takeLock.lockInterruptibly();
+    try {
+        while (count.get() == 0) {
+            notEmpty.await();
+        }
+        x = dequeue();
+        c = count.getAndDecrement();
+        if (c > 1)
+            notEmpty.signal();
+    } finally {
+        takeLock.unlock();
+    }
+    if (c == capacity)
+        signalNotFull();
+    return x;
+}
+
+```
+
+
+类似 ConcurrentLinkedQueue 等，则是基于 CAS 的无锁技术，不需要在每个操作时使用锁，所以扩展性表现要更加优异。
+
+SynchronousQueue，在 Java 6 中，其实现发生了非常大的变化，利用 CAS 替换掉了原本基于锁的逻辑，同步开销比较小。它是 Executors.newCachedThreadPool() 的默认队列。
+
+
+**队列使用场景与典型用例**
+
+在实际开发中，我提到过 Queue 被广泛使用在生产者 - 消费者场景，比如利用 BlockingQueue 来实现，由于其提供的等待机制，我们可以少操心很多协调工作，可以参考下面样例代码：
+
+```
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+public class ConsumerProducer {
+    public static final String EXIT_MSG  = "Good bye!";
+    public static void main(String[] args) {
+// 使用较小的队列，以更好地在输出中展示其影响
+        BlockingQueue<String> queue = new ArrayBlockingQueue<>(3);
+        Producer producer = new Producer(queue);
+        Consumer consumer = new Consumer(queue);
+        new Thread(producer).start();
+        new Thread(consumer).start();
+    }
+
+
+    static class Producer implements Runnable {
+        private BlockingQueue<String> queue;
+        public Producer(BlockingQueue<String> q) {
+            this.queue = q;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < 20; i++) {
+                try{
+                    Thread.sleep(5L);
+                    String msg = "Message" + i;
+                    System.out.println("Produced new item: " + msg);
+                    queue.put(msg);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            try {
+                System.out.println("Time to say good bye!");
+                queue.put(EXIT_MSG);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    static class Consumer implements Runnable{
+        private BlockingQueue<String> queue;
+        public Consumer(BlockingQueue<String> q){
+            this.queue=q;
+        }
+
+        @Override
+        public void run() {
+            try{
+                String msg;
+                while(!EXIT_MSG.equalsIgnoreCase( (msg = queue.take()))){
+                    System.out.println("Consumed item: " + msg);
+                    Thread.sleep(10L);
+                }
+                System.out.println("Got exit message, bye!");
+            }catch(InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+```
+
+上面是一个典型的生产者 - 消费者样例，如果使用非 Blocking 的队列，那么我们就要自己去实现轮询、条件判断（如检查 poll 返回值是否 null）等逻辑，如果没有特别的场景要求，Blocking 实现起来代码更加简单、直观。
+
+前面介绍了各种队列实现，在日常的应用开发中，如何进行选择呢？
+
+以 LinkedBlockingQueue、ArrayBlockingQueue 和 SynchronousQueue 为例，我们一起来分析一下，根据需求可以从很多方面考量：
+
+- 考虑应用场景中对队列边界的要求。ArrayBlockingQueue 是有明确的容量限制的，而 LinkedBlockingQueue 则取决于我们是否在创建时指定，SynchronousQueue 则干脆不能缓存任何元素。
+- 从空间利用角度，数组结构的 ArrayBlockingQueue 要比 LinkedBlockingQueue 紧凑，因为其不需要创建所谓节点，但是其初始分配阶段就需要一段连续的空间，所以初始内存需求更大。
+- 通用场景中，LinkedBlockingQueue 的吞吐量一般优于 ArrayBlockingQueue，因为它实现了更加细粒度的锁操作。
+- ArrayBlockingQueue 实现比较简单，性能更好预测，属于表现稳定的“选手”。
+- 如果我们需要实现的是两个线程之间接力性（handoff）的场景，你可能会选择 CountDownLatch，但是 [SynchronousQueue](http://www.baeldung.com/java-synchronous-queue)也是完美符合这种场景的，而且线程间协调和数据传输统一起来，代码更加规范。
+- 可能令人意外的是，很多时候 SynchronousQueue 的性能表现，往往大大超过其他实现，尤其是在队列元素较小的场景。
+
+
+---
+### Java并发类库提供的线程池有哪几种？ 分别有什么特点？
+通常开发者都是利用 Executors 提供的通用线程池创建方法，去创建不同配置的线程池，主要区别在于不同的 ExecutorService 类型或者不同的初始参数。
+
+Executors 目前提供了 5 种不同的线程池创建配置：
+
+- newCachedThreadPool()，它是一种用来处理大量短时间工作任务的线程池，具有几个鲜明特点：它会试图缓存线程并重用，当无缓存线程可用时，就会创建新的工作线程；如果线程闲置的时间超过 60 秒，则被终止并移出缓存；长时间闲置时，这种线程池，不会消耗什么资源。其内部使用 SynchronousQueue 作为工作队列。
+- newFixedThreadPool(int nThreads)，重用指定数目（nThreads）的线程，其背后使用的是无界的工作队列，任何时候最多有 nThreads 个工作线程是活动的。这意味着，如果任务数量超过了活动队列数目，将在工作队列中等待空闲线程出现；如果有工作线程退出，将会有新的工作线程被创建，以补足指定的数目 nThreads。
+- newSingleThreadExecutor()，它的特点在于工作线程数目被限制为 1，操作一个无界的工作队列，所以它保证了所有任务的都是被顺序执行，最多会有一个任务处于活动状态，并且不允许使用者改动线程池实例，因此可以避免其改变线程数目。
+- newSingleThreadScheduledExecutor() 和 newScheduledThreadPool(int corePoolSize)，创建的是个 ScheduledExecutorService，可以进行定时或周期性的工作调度，区别在于单一工作线程还是多个工作线程。
+- newWorkStealingPool(int parallelism)，这是一个经常被人忽略的线程池，Java 8 才加入这个创建方法，其内部会构建[ForkJoinPool](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ForkJoinPool.html)，利用[Work-Stealing](https://en.wikipedia.org/wiki/Work_stealing) 算法，并行地处理任务，不保证处理顺序。
+
+
+
+我们来看看 Executor 框架的基本组成，请参考下面的类图。
+![](../../images/javaCore/executor.png)
+
+
+我们从整体上把握一下各个类型的主要设计目的：
+
+- Executor 是一个基础的接口，其初衷是将任务提交和任务执行细节解耦，这一点可以体会其定义的唯一方法。
+
+`void execute(Runnable command);`
+
+Executor 的设计是源于 Java 早期线程 API 使用的教训，开发者在实现应用逻辑时，被太多线程创建、调度等不相关细节所打扰。就像我们进行 HTTP 通信，如果还需要自己操作 TCP 握手，开发效率低下，质量也难以保证。
+
+
+
+- ExecutorService 则更加完善，不仅提供 service 的管理功能，比如 shutdown 等方法，也提供了更加全面的提交任务机制，如返回[Future](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Future.html)，而不是 void 的 submit 方法。
+
+`<T> Future<T> submit(Callable<T> task);`
+
+注意，这个例子输入的可是[Callable](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/Callable.html)，它解决了 Runnable 无法返回结果的困扰。
+
+
+
+- Java 标准类库提供了几种基础实现，比如[ThreadPoolExecutor](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.html)、[ScheduledThreadPoolExecutor](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html)、[ForkJoinPool](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ForkJoinPool.html)。这些线程池的设计特点在于其高度的可调节性和灵活性，以尽量满足复杂多变的实际应用场景。
+
+- Executors 则从简化使用的角度，为我们提供了各种方便的静态工厂方法。
+
+
+
+下面我就从源码角度，分析线程池的设计与实现，主要围绕最基础的 ThreadPoolExecutor 源码。ScheduledThreadPoolExecutor 是 ThreadPoolExecutor 的扩展，主要是增加了调度逻辑。而 ForkJoinPool 则是为 ForkJoinTask 定制的线程池，与通常意义的线程池有所不同。
+
+这部分内容比较晦涩，罗列概念也不利于理解，所以我会配合一些示意图来说明。在现实应用中，理解应用与线程池的交互和线程池的内部工作过程，可以参考下图。
+![](../../images/javaCore/threadPoolWork.png) 
+
+简单理解一下：
+
+-工作队列负责存储用户提交的各个任务，这个工作队列，可以是容量为 0 的 SynchronousQueue（使用 newCachedThreadPool），也可以是像固定大小线程池（newFixedThreadPool）那样使用 LinkedBlockingQueue。
+
+`private final BlockingQueue<Runnable> workQueue;`
+
+- 内部的“线程池”，这是指保持工作线程的集合，线程池需要在运行过程中管理线程创建、销毁。例如，对于带缓存的线程池，当任务压力较大时，线程池会创建新的工作线程；当业务压力退去，线程池会在闲置一段时间（默认 60 秒）后结束线程。
+
+`private final HashSet<Worker> workers = new HashSet<>();`
+
+线程池的工作线程被抽象为静态内部类 Worker，基于 AQS 实现。
+
+
+- ThreadFactory 提供上面所需要的创建线程逻辑。
+- 如果任务提交时被拒绝，比如线程池已经处于 SHUTDOWN 状态，需要为其提供处理逻辑，Java 标准库提供了类似[ThreadPoolExecutor.AbortPolicy](https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/ThreadPoolExecutor.AbortPolicy.html)等默认实现，也可以按照实际需求自定义。
+
+
+
+从上面的分析，就可以看出线程池的几个基本组成部分，一起都体现在线程池的构造函数中，从字面我们就可以大概猜测到其用意：
+
+- corePoolSize，所谓的核心线程数，可以大致理解为长期驻留的线程数目（除非设置了 allowCoreThreadTimeOut）。对于不同的线程池，这个值可能会有很大区别，比如 newFixedThreadPool 会将其设置为 nThreads，而对于 newCachedThreadPool 则是为 0。
+- maximumPoolSize，顾名思义，就是线程不够时能够创建的最大线程数。同样进行对比，对于 newFixedThreadPool，当然就是 nThreads，因为其要求是固定大小，而 newCachedThreadPool 则是 Integer.MAX_VALUE。
+- keepAliveTime 和 TimeUnit，这两个参数指定了额外的线程能够闲置多久，显然有些线程池不需要它。
+- workQueue，工作队列，必须是 BlockingQueue。
+
+通过配置不同的参数，我们就可以创建出行为大相径庭的线程池，这就是线程池高度灵活性的基础。
+
+```
+public ThreadPoolExecutor(int corePoolSize,
+                      	int maximumPoolSize,
+                      	long keepAliveTime,
+                      	TimeUnit unit,
+                      	BlockingQueue<Runnable> workQueue,
+                      	ThreadFactory threadFactory,
+                      	RejectedExecutionHandler handler)
+
+
+```
+
+
+
+---
+### AtomicInteger底层实现原理是什么？如何在自己的产品代码中应用CAS操作？
+
+
+
+
 
 
 
