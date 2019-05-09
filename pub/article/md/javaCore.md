@@ -176,7 +176,7 @@ Charset.defaultCharset().encode("Hello world!"));
 
 
 ##### NIO 多路复用
-**实现一个服务器应用（BIO方式）：**
+**实现一个简单的服务器应用（BIO方式）：**
 
 ```
 serverSocket = new ServerSocket(0);
@@ -196,7 +196,7 @@ executor = Executors.newFixedThreadPool(8);
 如果连接数并不是非常多，只有最多几百个连接的普通应用，这种模式往往可以工作的很好。但是，如果连接数量急剧上升，这种实现方式就无法很好地工作了，因为线程上下文切换开销会在高并发时变得很明显，这是同步阻塞方式的低扩展性劣势。
 
 
-**实现一个服务器应用（NIO方式，即多路复用）：**
+**实现一个简单的服务器应用（NIO方式，即多路复用）：**
 
 ```
 public class NIOServer extends Thread {
@@ -243,7 +243,7 @@ public class NIOServer extends Thread {
 ![](../../images/javaCore/nioServer.png)
 
 
-**实现一个服务器应用（AIO方式）：** 
+**实现一个简单的服务器应用（AIO方式）：** 
 
 ```
 AsynchronousServerSocketChannel serverSock = AsynchronousServerSocketChannel.open().bind(sockAddr);
@@ -434,9 +434,323 @@ Spring 在 API 设计中使用的设计模式：
 - 类似 JdbcTemplate 等则是应用了模板模式。
 
 
+---
+<font face="黑体" color=red >*前面属于基础部分，后面属于进阶部分。*</font>
+
+---
+### synchronized 和 ReentrantLock 有什么区别呢？
+
+synchronized 是 Java 内建的同步机制，所以也有人称其为 Intrinsic Locking，它提供了互斥的语义和可见性，当一个线程已经获取当前锁时，其他试图获取的线程只能等待或者阻塞在那里。
+
+在 Java 5 以前，synchronized 是仅有的同步手段，在代码中， synchronized 可以用来修饰方法，也可以使用在特定的代码块儿上，本质上 synchronized 方法等同于把方法全部语句用 synchronized 块包起来。
+
+ReentrantLock，通常翻译为再入锁，是 Java 5 提供的锁实现，它的语义和 synchronized 基本相同。再入锁通过代码直接调用 lock() 方法获取，代码书写也更加灵活。与此同时，ReentrantLock 提供了很多实用的方法，能够实现很多 synchronized 无法做到的细节控制，比如可以控制 fairness，也就是公平性，或者利用定义条件等。但是，编码中也需要注意，必须要明确调用 unlock() 方法释放，不然就会一直持有该锁。
+
+synchronized 和 ReentrantLock 的性能不能一概而论，早期版本 synchronized 在很多场景下性能相差较大，在后续版本进行了较多改进，在低竞争场景中表现可能优于 ReentrantLock。
 
 
-test<br/>test<br/>test
+**线程安全需要保证几个基本特性：**
+
+- 原子性：简单说就是相关操作不会中途被其他线程干扰，一般通过同步机制实现。
+- 可见性：是一个线程修改了某个共享变量，其状态能够立即被其他线程知晓，通常被解释为将线程本地状态反映到主内存上，volatile 就是负责保证可见性的。
+- 有序性：是保证线程内串行语义，避免指令重排等。
+
+产生并发问题的根源：缓存导致的可见性问题，线程切换导致的原子性问题，指令重排序导致的有序性问题。
+
+
+**条件变量（java.util.concurrent.Condition）**
+
+如果说 ReentrantLock 是 synchronized 的替代选择，Condition 则是将 wait、notify、notifyAll 等操作转化为相应的对象，将复杂而晦涩的同步操作转变为直观可控的对象行为。
+
+条件变量最为典型的应用场景就是标准类库中的 ArrayBlockingQueue 等。
+
+我们参考下面的源码，首先，通过再入锁获取条件变量：
+
+```
+/** Condition for waiting takes */
+private final Condition notEmpty;
+
+/** Condition for waiting puts */
+private final Condition notFull;
+ 
+public ArrayBlockingQueue(int capacity, boolean fair) {
+	if (capacity <= 0)
+    	throw new IllegalArgumentException();
+	this.items = new Object[capacity];
+	lock = new ReentrantLock(fair);
+	notEmpty = lock.newCondition();
+	notFull =  lock.newCondition();
+}
+
+```
+
+
+两个条件变量是从**同一再入锁**创建出来，然后使用在特定操作中，如下面的 take 方法，判断和等待条件满足：
+
+```
+public E take() throws InterruptedException {
+	final ReentrantLock lock = this.lock;
+	lock.lockInterruptibly();
+	try {
+    	while (count == 0)
+            notEmpty.await();
+    	return dequeue();
+	} finally {
+    	lock.unlock();
+	}
+}
+
+```
+
+当队列为空时，试图 take 的线程的正确行为应该是等待入队发生，而不是直接返回，这是 BlockingQueue 的语义，使用条件 notEmpty 就可以优雅地实现这一逻辑。
+
+
+那么，怎么保证入队触发后续 take 操作呢？请看 enqueue 实现：
+
+```
+private void enqueue(E e) {
+	// assert lock.isHeldByCurrentThread();
+	// assert lock.getHoldCount() == 1;
+	// assert items[putIndex] == null;
+	final Object[] items = this.items;
+	items[putIndex] = e;
+	if (++putIndex == items.length) putIndex = 0;
+	count++;
+	notEmpty.signal(); // 通知等待的线程，非空条件已经满足
+}
+
+```
+
+通过 signal/await 的组合，完成了条件判断和通知等待线程，非常顺畅就完成了状态流转。注意，signal 和 await 成对调用非常重要，不然假设只有 await 动作，线程会一直等待直到被打断（interrupt）。
+
+
+---
+### synchronized 底层如何实现？什么是锁的升级、降级？
+
+synchronized 代码块是由一对儿 monitorenter/monitorexit 指令实现的，Monitor 对象是同步的基本实现。
+
+在 Java 6 之前，Monitor 的实现完全是依靠操作系统内部的互斥锁，因为需要进行用户态到内核态的切换，所以同步操作是一个无差别的重量级操作。
+
+现代的（Oracle）JDK 中，JVM 对此进行了大刀阔斧地改进，提供了三种不同的 Monitor 实现，也就是常说的三种不同的锁：偏斜锁（Biased Locking）、轻量级锁和重量级锁，大大改进了其性能。
+
+所谓锁的升级、降级，就是 JVM 优化 synchronized 运行的机制，当 JVM 检测到不同的竞争状况时，会自动切换到适合的锁实现，这种切换就是锁的升级、降级。
+
+当没有竞争出现时，默认会使用偏斜锁。JVM 会利用 CAS 操作（[compare and swap](https://en.wikipedia.org/wiki/Compare-and-swap)），在对象头上的 Mark Word 部分设置线程 ID，以表示这个对象偏向于当前线程，所以并不涉及真正的互斥锁。这样做的假设是基于在很多应用场景中，大部分对象生命周期中最多会被一个线程锁定，使用偏斜锁可以降低无竞争开销。
+
+如果有另外的线程试图锁定某个已经被偏斜过的对象，JVM 就需要撤销（revoke）偏斜锁，并切换到轻量级锁实现。轻量级锁依赖 CAS 操作 Mark Word 来试图获取锁，如果重试成功，就使用普通的轻量级锁；否则，进一步升级为重量级锁。
+
+当 JVM 进入安全点（[SafePoint](http://blog.ragozin.info/2012/10/safepoints-in-hotspot-jvm.html)）的时候，会检查是否有闲置的 Monitor，然后试图进行降级。
+
+
+**Java 核心类库中还有其他一些特别的锁类型，具体请参考下面的图。**
+
+![](../../images/javaCore/lock.png)
+
+
+你可能注意到了，这些锁竟然不都是实现了 Lock 接口，ReadWriteLock 是一个单独的接口，它通常是代表了一对儿锁，分别对应只读和写操作，标准类库中提供了再入版本的读写锁实现（ReentrantReadWriteLock），对应的语义和 ReentrantLock 比较相似。
+
+StampedLock 竟然也是个单独的类型，从类图结构可以看出它是不支持再入性的语义的，也就是它不是以持有锁的线程为单位。
+
+
+为什么我们需要读写锁（ReadWriteLock）等其他锁呢？
+
+这是因为，虽然 ReentrantLock 和 synchronized 简单实用，但是行为上有一定局限性，通俗点说就是“太霸道”，要么不占，要么独占。实际应用场景中，有的时候不需要大量竞争的写操作，而是以并发读取为主，如何进一步优化并发操作的粒度呢？
+
+Java 并发包提供的读写锁等扩展了锁的能力，它所基于的原理是多个读操作是不需要互斥的，因为读操作并不会更改数据，所以不存在互相干扰。而写操作则会导致并发一致性的问题，所以写线程之间、读写线程之间，需要精心设计的互斥逻辑。
+
+
+下面是一个基于读写锁实现的数据结构，当数据量较大，并发读多、并发写少的时候，能够比纯同步版本更有优势。
+
+```
+public class RWSample {
+	private final Map<String, String> m = new TreeMap<>();
+	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	private final Lock r = rwl.readLock();
+	private final Lock w = rwl.writeLock();
+
+	public String get(String key) {
+    	r.lock();
+    	System.out.println(" 读锁锁定！");
+    	try {
+        	return m.get(key);
+    	} finally {
+        	r.unlock();
+    	}
+	}
+
+	public String put(String key, String entry) {
+    	w.lock();
+		System.out.println(" 写锁锁定！");
+	    	try {
+	        	return m.put(key, entry);
+	    	} finally {
+	        	w.unlock();
+	    	}
+		}
+	// …
+	}
+
+```
+
+在运行过程中，如果读锁试图锁定时，写锁是被某个线程持有，读锁将无法获得，而只好等待对方操作结束，这样就可以自动保证不会读取到有争议的数据。
+
+
+读写锁看起来比 synchronized 的粒度细一些，但在实际应用中，其表现也并不尽如人意，主要还是因为相对比较大的开销。
+
+所以，JDK 在后期引入了 StampedLock，在提供类似读写锁的同时，还支持优化读模式。优化读基于假设，大多数情况下读操作并不会和写操作冲突，其逻辑是先试着读，然后通过 validate 方法确认是否进入了写模式，如果没有进入，就成功避免了开销；如果进入，则尝试获取读锁。请参考下面的样例代码。
+
+```
+public class StampedSample {
+	private final StampedLock sl = new StampedLock();
+
+	void mutate() {
+    	long stamp = sl.writeLock();
+    	try {
+        	write();
+    	} finally {
+        	sl.unlockWrite(stamp);
+    	}
+	}
+
+	Data access() {
+    	long stamp = sl.tryOptimisticRead();
+    	Data data = read();
+    	if (!sl.validate(stamp)) {
+        	stamp = sl.readLock();
+        	try {
+            	data = read();
+        	} finally {
+            	sl.unlockRead(stamp);
+        	}
+    	}
+    	return data;
+	}
+	// …
+}
+
+```
+
+注意，这里的 writeLock 和 unLockWrite 一定要保证成对调用。
+
+
+**这些显式锁的实现机制:**
+
+Java 并发包内的各种同步工具，不仅仅是各种 Lock，其他的如[Semaphore](https://docs.oracle.com/javase/10/docs/api/java/util/concurrent/Semaphore.html)、[CountDownLatch](https://docs.oracle.com/javase/10/docs/api/java/util/concurrent/CountDownLatch.html)，甚至是早期的[FutureTask](https://docs.oracle.com/javase/10/docs/api/java/util/concurrent/FutureTask.html)等，都是基于一种[AQS](https://docs.oracle.com/javase/10/docs/api/java/util/concurrent/locks/AbstractQueuedSynchronizer.html)框架。
+
+
+---
+### 一个线程两次调用start()方法会出现什么情况？
+Java 的线程是不允许启动两次的，第二次调用必然会抛出 IllegalThreadStateException，这是一种运行时异常，多次调用 start 被认为是编程错误。
+
+线程生命周期的不同状态，在 Java 5 以后，线程状态被明确定义在其公共内部枚举类型 java.lang.Thread.State 中，分别是：
+
+- 新建（NEW），表示线程被创建出来还没真正启动的状态，可以认为它是个 Java 内部状态。
+- 就绪（RUNNABLE），表示该线程已经在 JVM 中执行，当然由于执行需要计算资源，它可能是正在运行，也可能还在等待系统分配给它 CPU 片段，在就绪队列里面排队。
+- 在其他一些分析中，会额外区分一种状态 RUNNING，但是从 Java API 的角度，并不能表示出来。
+- 阻塞（BLOCKED），这个状态和我们前面两讲介绍的同步非常相关，阻塞表示线程在等待 Monitor lock。比如，线程试图通过 synchronized 去获取某个锁，但是其他线程已经独占了，那么当前线程就会处于阻塞状态。
+- 等待（WAITING），表示正在等待其他线程采取某些操作。一个常见的场景是类似生产者消费者模式，发现任务条件尚未满足，就让当前消费者线程等待（wait），另外的生产者线程去准备任务数据，然后通过类似 notify 等动作，通知消费线程可以继续工作了。Thread.join() 也会令线程进入等待状态。
+- 计时等待（TIMED_WAIT），其进入条件和等待状态类似，但是调用的是存在超时条件的方法，比如 wait 或 join 等方法的指定超时版本。
+- 终止（TERMINATED），不管是意外退出还是正常执行结束，线程已经完成使命，终止运行，也有人把这个状态叫作死亡。
+
+
+线程状态流转如下图所示：
+![](../../images/javaCore/threadState.png)
+
+
+---
+### 什么情况下Java程序会产生死锁？如何定位、修复？
+死锁是指在多线程场景中，两个或多个线程之间，由于互相持有对方需要的锁，而永久处于阻塞的状态。死锁不仅仅是在线程之间会发生，存在资源独占的进程之间同样也可能出现死锁。死锁通常是由于循环依赖、嵌套的synchronize或lock等导致。
+
+你可以利用下面的示例图理解基本的死锁问题：
+![](../../images/javaCore/deadLock.png)
+
+
+定位死锁最常见的方式就是利用 jstack 等工具获取线程栈，然后定位互相之间的依赖关系，进而找到死锁。如果是比较明显的死锁，往往 jstack 等就能直接定位，类似 JConsole 甚至可以在图形界面进行有限的死锁检测。
+
+如果程序运行时发生了死锁，绝大多数情况下都是无法在线解决的，只能重启、修正程序本身问题。所以，代码开发阶段互相审查，或者利用工具进行预防性排查，往往也是很重要的。
+
+
+由于之前面试时，面试官要求写一个死锁程序代码，所以在此贴一个死锁样例代码：
+
+```
+public class DeadLockSample extends Thread {
+	private String first;
+	private String second;
+	public DeadLockSample(String name, String first, String second) {
+    	super(name);
+    	this.first = first;
+    	this.second = second;
+	}
+
+	public  void run() {
+    	synchronized (first) {
+        	System.out.println(this.getName() + " obtained: " + first);
+        	try {
+            	Thread.sleep(1000L);
+            	synchronized (second) {
+                	System.out.println(this.getName() + " obtained: " + second);
+            	}
+        	} catch (InterruptedException e) {
+            	// Do nothing
+        	}
+    	}
+	}
+	public static void main(String[] args) throws InterruptedException {
+    	String lockA = "lockA";
+    	String lockB = "lockB";
+    	DeadLockSample t1 = new DeadLockSample("Thread1", lockA, lockB);
+    	DeadLockSample t2 = new DeadLockSample("Thread2", lockB, lockA);
+    	t1.start();
+    	t2.start();
+    	t1.join();
+    	t2.join();
+	}
+}
+
+```
+
+
+**jstack 死锁问题定位思路：**
+
+- 首先，可以使用 jps 或者系统的 ps 命令、任务管理器等工具，确定进程 ID。
+- 其次，调用 jstack 获取线程栈：`${JAVA_HOME}\bin\jstack your_pid`
+- 然后，分析得到的输出，具体片段如下：
+![](../../images/javaCore/deadLockInfo)
+- 最后，结合代码分析线程栈信息。找到处于 BLOCKED 状态的线程，按照试图获取（waiting）的锁 ID 查找，很快就定位问题。 jstack 本身也会把类似的简单死锁抽取出来，直接打印出来。
+
+在实际应用中，死锁情况未必有如此清晰的输出，但是总体上可以理解为：<br/>
+*区分线程状态 -> 查看等待目标 -> 对比 Monitor 等持有状态*
+
+
+基本上死锁的发生是因为：
+
+- 互斥条件，类似 Java 中 Monitor 都是独占的，要么是我用，要么是你用。
+- 互斥条件是长期持有的，在使用结束之前，自己不会释放，也不能被其他线程抢占。
+- 循环依赖关系，两个或者多个个体之间出现了锁的链条环。
+
+
+所以，我们可以据此分析可能的避免死锁的思路和方法：
+
+1. 如果可能的话，尽量避免使用多个锁，并且只有需要时才持有锁。否则，即使是非常精通并发编程的工程师，也难免会掉进坑里，嵌套的 synchronized 或者 lock 非常容易出问题。
+2. 如果必须使用多个锁，尽量设计好锁的获取顺序，这个说起来简单，做起来可不容易。
+3. 使用带超时的方法，为程序带来更多可控性。
+4. 业界也有一些其他方面的尝试，比如通过静态代码分析（如 FindBugs）去查找固定的模式，进而定位可能的死锁或者竞争情况。实践证明这种方法也有一定作用，请参考[相关文档](https://plugins.jetbrains.com/plugin/3847-findbugs-idea)。
+
+
+除了典型应用中的死锁场景，其实还有一些更令人头疼的死锁，比如类加载过程发生的死锁，尤其是在框架大量使用自定义类加载时，因为往往不是在应用本身的代码库中，jstack 等工具也不见得能够显示全部锁信息，所以处理起来比较棘手。对此，Java 有[官方文档](https://docs.oracle.com/javase/7/docs/technotes/guides/lang/cl-mt.html)进行了详细解释，并针对特定情况提供了相应 JVM 参数和基本原则。
+
+
+
+---
+### Java并发包提供了哪些并发工具类？
+
+
+
+
+
+
+
+
 
 
 
