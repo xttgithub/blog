@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         src: ['pub/article/**']
       },
       js:{
-        src: ['pub/images/*']
+        src: ['pub/images/**']
       }
     },
     concat : {
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
         main: {
           files: [
             {expand: true, src: ['lib/*'], dest: 'pub/', filter: 'isFile'},
-            {expand: true, src: ['images/*'], dest: 'pub/', filter: 'isFile'},
+            {expand: true, src: ['images/**'], dest: 'pub/', filter: 'isFile'},
             {expand: true, src: ['article/*.md'], dest: 'pub/'},
             {expand: true, src: ['article/*/**'], dest: 'pub/'}
           ]
