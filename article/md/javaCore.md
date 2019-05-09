@@ -715,7 +715,7 @@ public class DeadLockSample extends Thread {
 - 首先，可以使用 jps 或者系统的 ps 命令、任务管理器等工具，确定进程 ID。
 - 其次，调用 jstack 获取线程栈：`${JAVA_HOME}\bin\jstack your_pid`
 - 然后，分析得到的输出，具体片段如下：
-![](../../images/javaCore/deadLockInfo)
+![](../../images/javaCore/deadLockInfo.png)
 - 最后，结合代码分析线程栈信息。找到处于 BLOCKED 状态的线程，按照试图获取（waiting）的锁 ID 查找，很快就定位问题。 jstack 本身也会把类似的简单死锁抽取出来，直接打印出来。
 
 在实际应用中，死锁情况未必有如此清晰的输出，但是总体上可以理解为：<br/>
