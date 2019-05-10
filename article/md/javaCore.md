@@ -1483,6 +1483,7 @@ final boolean acquireQueued(final Node node, int arg) {
 
 
 
+
 ---
 ### 请介绍类加载过程，什么是双亲委派模型？
 一般来说，我们把 Java 的类加载过程分为三个主要步骤：加载、链接、初始化，具体行为在[Java 虚拟机规范](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-5.html)里有非常详细的定义。
@@ -1516,6 +1517,145 @@ Java8 以前类加载器分为：启动类加载器、扩展类加载器、应�
 ---
 ### 有哪些方法可以在运行时动态生成一个Java类？
 
+我们可以从常见的 Java 类来源分析，通常的开发过程是，开发者编写 Java 代码，调用 javac 编译成 class 文件，然后通过类加载机制载入 JVM，就成为应用运行时可以使用的 Java 类了。
+
+从上面过程得到启发，其中一个直接的方式是从源码入手，可以利用 Java 程序生成一段源码，然后保存到文件等，下面就只需要解决编译问题了。
+
+有一种笨办法，直接用 ProcessBuilder 之类启动 javac 进程，并指定上面生成的文件作为输入，进行编译。最后，再利用类加载器，在运行时加载即可。
+
+前面的方法，本质上还是在当前程序进程之外编译的，那么还有没有不这么 low 的办法呢？
+
+你可以考虑使用 Java Compiler API，这是 JDK 提供的标准 API，里面提供了与 javac 对等的编译器功能，具体请参考[java.compiler](https://docs.oracle.com/javase/9/docs/api/javax/tools/package-summary.html)相关文档。
+
+进一步思考，我们一直围绕 Java 源码编译成为 JVM 可以理解的字节码，换句话说，只要是符合 JVM 规范的字节码，不管它是如何生成的，是不是都可以被 JVM 加载呢？我们能不能直接生成相应的字节码，然后交给类加载器去加载呢？
+
+当然也可以，不过直接去写字节码难度太大，通常我们可以利用 Java 字节码操纵工具和类库来实现，比如[ASM](https://asm.ow2.io/)、cglib、[Javassist](http://www.javassist.org/) 等。
+
+
+
+首先，我们来理解一下，类从字节码到 Class 对象的转换，在类加载过程中，这一步是通过下面的方法提供的功能，或者 defineClass 的其他本地对等实现。
+
+```
+protected final Class<?> defineClass(String name, byte[] b, int off, int len,
+                                 	ProtectionDomain protectionDomain)
+protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
+                                 	ProtectionDomain protectionDomain)
+
+```
+
+我这里只选取了最基础的两个典型的 defineClass 实现，Java 重载了几个不同的方法。
+
+可以看出，只要能够生成出规范的字节码，不管是作为 byte 数组的形式，还是放到 ByteBuffer 里，都可以平滑地完成字节码到 Java 对象的转换过程。
+
+JDK 提供的 defineClass 方法，最终都是本地代码实现的。
+
+```
+static native Class<?> defineClass1(ClassLoader loader, String name, byte[] b, int off, int len,
+                                	ProtectionDomain pd, String source);
+
+static native Class<?> defineClass2(ClassLoader loader, String name, java.nio.ByteBuffer b,
+                                	int off, int len, ProtectionDomain pd,
+                                	String source);
+
+```
+
+
+更进一步，我们来看看 JDK dynamic proxy 的[实现代码](http://hg.openjdk.java.net/jdk/jdk/file/29169633327c/src/java.base/share/classes/java/lang/reflect/Proxy.java)。你会发现，对应逻辑是实现在 ProxyBuilder 这个静态内部类中，ProxyGenerator 生成字节码，并以 byte 数组的形式保存，然后通过调用 Unsafe 提供的 defineClass 入口。
+
+```
+byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
+    	proxyName, interfaces.toArray(EMPTY_CLASS_ARRAY), accessFlags);
+try {
+	Class<?> pc = UNSAFE.defineClass(proxyName, proxyClassFile,
+                                 	0, proxyClassFile.length,
+      	                           loader, null);
+	reverseProxyCache.sub(pc).putIfAbsent(loader, Boolean.TRUE);
+	return pc;
+} catch (ClassFormatError e) {
+// 如果出现 ClassFormatError，很可能是输入参数有问题，比如，ProxyGenerator 有 bug
+}
+
+```
+
+
+前面理顺了二进制的字节码信息到 Class 对象的转换过程，似乎我们还没有分析如何生成自己需要的字节码，接下来一起来看看相关的字节码操纵逻辑。
+
+从相对实用的角度思考一下，实现一个简单的动态代理，都要做什么？如何使用字节码操纵技术，走通这个过程呢？
+
+对于一个普通的 Java 动态代理，其实现过程可以简化成为：
+
+- 提供一个基础的接口，作为被调用类型（com.mycorp.HelloImpl）和代理类之间的统一入口，如 com.mycorp.Hello。
+- 实现[InvocationHandler](https://docs.oracle.com/javase/9/docs/api/java/lang/reflect/InvocationHandler.html)，对代理对象方法的调用，会被分派到其 invoke 方法来真正实现动作。
+- 通过 Proxy 类，调用其 newProxyInstance 方法，生成一个实现了相应基础接口的代理类实例，可以看下面的方法签名。
+
+```
+public static Object newProxyInstance(ClassLoader loader,
+                                  	Class<?>[] interfaces,
+                                  	InvocationHandler h)
+
+```
+
+我们分析一下，动态代码生成是具体发生在什么阶段呢？
+
+不错，就是在 newProxyInstance 生成代理类实例的时候。我选取了 JDK 自己采用的 ASM 作为示例，一起来看看用 ASM 实现的简要过程，请参考下面的示例代码片段。
+
+第一步，生成对应的类，其实和我们去写 Java 代码很类似，只不过改为用 ASM 方法和指定参数，代替了我们书写的源码。
+
+```
+ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+
+cw.visit(V1_8,                      // 指定 Java 版本
+    	ACC_PUBLIC,             	// 说明是 public 类型
+        "com/mycorp/HelloProxy",	// 指定包和类的名称
+    	null,                   	// 签名，null 表示不是泛型
+    	"java/lang/Object",             	// 指定父类
+    	new String[]{ "com/mycorp/Hello" }); // 指定需要实现的接口
+
+```
+
+
+第二步，我们可以按照需要为代理对象实例，生成需要的方法和逻辑。
+
+```
+MethodVisitor mv = cw.visitMethod(
+    	ACC_PUBLIC,         	    // 声明公共方法
+    	"sayHello",             	// 方法名称
+    	"()Ljava/lang/Object;", 	// 描述符
+    	null,                   	// 签名，null 表示不是泛型
+    	null);                      // 可能抛出的异常，如果有，则指定字符串数组
+
+mv.visitCode();
+// 省略代码逻辑实现细节
+cw.visitEnd();                      // 结束类字节码生成
+
+```
+
+上面的代码虽然有些晦涩，但总体还是能多少理解其用意，不同的 visitX 方法提供了创建类型，创建各种方法等逻辑。ASM API，广泛的使用了[Visitor](https://en.wikipedia.org/wiki/Visitor_pattern)模式，如果你熟悉这个模式，就会知道它所针对的场景是将算法和对象结构解耦，非常适合字节码操纵的场合，因为我们大部分情况都是依赖于特定结构修改或者添加新的方法、变量或者类型等。
+
+按照前面的分析，字节码操作最后大都应该是生成 byte 数组，ClassWriter 提供了一个简便的方法。
+
+```
+cw.toByteArray();
+
+```
+
+
+字节码操纵技术，除了动态代理，还可以应用在什么地方？
+
+这个技术似乎离我们日常开发遥远，但其实已经深入到各个方面，也许很多你现在正在使用的框架、工具就应用该技术，下面是我能想到的几个常见领域。
+
+- 各种 Mock 框架
+- ORM 框架
+- IOC 容器
+- 部分 Profiler 工具，或者运行时诊断工具等
+- 生成形式化代码的工具
+
+甚至可以认为，字节码操纵技术是工具和基础框架必不可少的部分，大大减少了开发者的负担。
+
+
+
+---
+### 谈谈JVM内存区域的划分，哪些区域可能发生OutOfMemoryError?
 
 
 
