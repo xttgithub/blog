@@ -69,6 +69,7 @@ public class RespResult<T> implements Serializable {
 ### 分页包装类
 
 - 请求分页信息类
+
 ```
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -95,6 +96,7 @@ public class ReqPage implements Serializable {
 ```
 
 - 响应分页信息类
+
 ```
 import lombok.Data;
 import lombok.experimental.Accessors;
