@@ -5,17 +5,17 @@
 #### request data
 ```
 {
-  paramA: 11,
-  paramB: "111"
+  "paramA": 11,
+  "paramB": "111"
 }
 ```
 
 #### response data
 ```
 {
-  code: 200,  //200表示成功
-  message: "success",
-  data: {}
+  "code": 0,  //0 表示成功
+  "message": "success",
+  "data": {}
 }
 ```
 
@@ -27,8 +27,8 @@
 
 ```
 {
-  pageNum:1,	//页码
-  pageSize:10,	//每页条数
+  "pageNum":1,	//页码
+  "pageSize":10,	//每页条数
 }
 ```
 
@@ -37,11 +37,11 @@
 - 有数据
 ```
 {
-  code:200,
-  message:"success",
-  data:{
-    list:[1,2,3,4],
-    total: 100
+  "code":0,
+  "message":"success",
+  "data":{
+    "list":[1,2,3,4],
+    "total": 100
   }
 }
 ```
@@ -49,11 +49,11 @@
 - 无数据
 ```
 {
-  code:200,
-  message:"success",
-  data:{
-    list: [],
-    total: 0
+  "code":0,
+  "message":"success",
+  "data":{
+    "list": [],
+    "total": 0
   }
 }
 ```
@@ -65,8 +65,8 @@
 #### request data
 ```
 {
-  paramA: 11,
-  paramB: "111"
+  "paramA": 11,
+  "paramB": "111"
 }
 ```
 
@@ -75,11 +75,11 @@
 - 有数据
 ```
 {
-   code:200,
-   message:"success",
-   data:[
-      {value:'标题',key:'a'},
-      {value:'标题2',key:'a2'}
+   "code":0,
+   "message":"success",
+   "data":[
+      {"value":"标题","key":"a"},
+      {"value":"标题2","key":"a2"}
    ]
 }
 ```
@@ -87,9 +87,9 @@
 - 无数据
 ```
 {
-   code:200,
-   message:"success",
-   data:[]
+   "code":0,
+   "message":"success",
+   "data":[]
 }
 ```
 
