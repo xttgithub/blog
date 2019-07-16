@@ -60,9 +60,44 @@
 
 
 ### 践行图谱
+思考框架：
+![](../../images/workEfficiently/thinkingFrame.jpg)
+
 快速了解一个项目：
 ![](../../images/workEfficiently/quicklyUnderstandProject.jpg)
+迭代0清单：
+![](../../images/workEfficiently/iteration0List.jpg)
+任务分解（简单登录功能）：
+![](../../images/workEfficiently/taskDecomposition.jpg)
 
+测试金字塔：
+![](../../images/workEfficiently/testPyramid.jpg)
+测试驱动开发（测试驱动设计）：
+![](../../images/workEfficiently/TDD.png)
+
+持续集成：
+![](../../images/workEfficiently/CI.jpg)
+![](../../images/workEfficiently/CI.png)
+持续交付（持续部署）：
+![](../../images/workEfficiently/CDM.jpg)
+![](../../images/workEfficiently/CDA.jpg)
+
+运维知识体系：
+![](../../images/workEfficiently/knowledgeSystem.jpg)
+领域驱动设计：
+![](../../images/workEfficiently/DDD.png)
+用业务语言写代码：
+![](../../images/workEfficiently/businessLanguage.png)
+
+精益创业：
+![](../../images/workEfficiently/leanStartup.jpg)
+看板：
+![](../../images/workEfficiently/billboard.png)
+
+一专多能：
+![](../../images/workEfficiently/T.jpg)
+学习模型：
+![](../../images/workEfficiently/learnModel.jpg)
 
 
 
