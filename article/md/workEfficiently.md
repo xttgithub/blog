@@ -75,6 +75,31 @@
 测试驱动开发（测试驱动设计）：
 ![](../../images/workEfficiently/TDD.png)
 
+测试范例：
+```
+@Test
+void should_extract_HTTP_method_from_HTTP_request() {
+  // 前置准备
+  request = mock(HttpRequest.class);
+  when(request.getMethod()).thenReturn(HttpMethod.GET);
+  HttpMethodExtractor extractor = new HttpMethodExtractor();
+  
+  // 执行
+  HttpMethod method = extractor.extract(request);
+  
+  // 断言
+  assertThat(method, is(HttpMethod.GET);
+  
+  // 清理
+}
+
+```
+这段代码分成了四段，分别是**前置准备、执行、断言和清理**，这也是一般测试要具备的四段。
+- 这几段的核心是中间的执行部分，它就是测试的目标，但实际上，它往往也是最短小的，一般就是一行代码调用。其他的部分都是围绕它展开的，在这里就是调用 HTTP 方法提取器提取 HTTP 方法。
+- 前置准备，就是准备执行部分所需的依赖。比如，一个类所依赖的组件，或是调用方法所需要的参数。在这个测试里面，我们准备了一个 HTTP 请求，设置了它的方法是一个 GET 方法，这里面还用到了之前提到的 Mock 框架，因为完整地设置一个 HTTP 请求很麻烦，而且与这个测试也没什么关系。
+- 断言是我们的预期，就是这段代码执行出来怎么算是对的。这里我们判断了提取出来的方法是否是 GET 方法。另外补充一点，断言并不仅仅是 assert，如果你用 Mock 框架的话，用以校验 mock 对象行为的 verify 也是一种断言。
+- 清理是一个可能会有的部分，如果你的测试用到任何资源，都可以在这里释放掉。不过，如果你利用好现有的测试基础设施（比如，JUnit 的 Rule），遵循好测试规范的话，很多情况下，这个部分就会省掉了。
+
 持续集成：
 ![](../../images/workEfficiently/CI.jpg)
 ![](../../images/workEfficiently/CI.png)
