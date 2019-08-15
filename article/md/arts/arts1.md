@@ -20,15 +20,26 @@
 
 
 ## Review：7 Things You Need To Stop Doing To Be More Productive, Backed By Science
-[文章地址](https://medium.com/s/story/7-things-you-need-to-stop-doing-to-be-more-productive-backed-by-science-a988c17383a6)
+[原文](https://medium.com/s/story/7-things-you-need-to-stop-doing-to-be-more-productive-backed-by-science-a988c17383a6)
 
-作者首先介绍年轻时候的工作状态，然后在老的时候开始思考自己人生经历的不同阶段有什么不同。有时候，减少工作实际上能产生更好的结果。
+首先介绍年轻时候的工作状态，然后在老的时候开始思考自己人生经历的不同阶段有什么不同。有时候，减少工作实际上能产生更好的结果。
+其次通过举例（Instagram、Snapchat两个软件的成功）说明，成功的关键不是努力工作，而是聪明的工作。
+
+以下是作者停止做的七件事，从而变得更高效。
+1. 停止加班并提高生产率。
+2. 停止对产生少或者没有结果的任务说“是”。
+3. 停止自己做所有事情，并开始让别人帮助你。
+4. 停止成为完美主义者。
+5. 停止做重复的任务，并开始自动化。
+6. 停止猜测，并开始用数据支持你的决策。
+7. 停止工作，花一些时间什么都不做。
+
+
+## Tip：Mybatis-PageHelper
+[官网](https://github.com/pagehelper/Mybatis-PageHelper)
 
 
 
-
-## Tip：
-技术归纳总结
 
 ## Share：
 分享有思考和观点的文章
