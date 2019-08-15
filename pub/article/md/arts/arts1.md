@@ -1,6 +1,6 @@
 # 2019年8月11日～2019年8月17日
 
-## Algorithm
+## Algorithm：时间复杂度和空间复杂度
 数据结构和算法本身解决的是快和省的问题。即让代码运行更快，让代码存储空间更省。如何衡量算法的好坏，需要进行时间、空间复杂度分析。我们通常使用大O表示法来表示。
 
 时间复杂度大O表示法：T(n)=O(f(n))。其中T(n)表示代码执行时间，n表示数据规模大小，f(n)表示每行代码执行次数总和，O表示代码执行时间T(n)与f(n)表达式成正比。
@@ -11,19 +11,24 @@
 3. 乘法法则：嵌套代码的复杂度等于嵌套内外代码复杂度的乘积。
 
 复杂度量级：
-![](../../../images/arts/complexityMagnitude.jpg)
+![](../../../images/arts/arts1_complexityMagnitude.jpg)
 
 复杂度也叫渐进复杂度，包括时间复杂度和空间复杂度，用来分析算法执行效率与数据规模之间的增长关系，可以粗略的表示，越高阶复杂度的算法，执行效率越低。常见的复杂度从低阶到高阶有：O(1)、O(logn)、O(n)、O(nlogn)、O(n2)。
-![](../../../images/arts/complexityGrow.jpg)
+![](../../../images/arts/arts1_complexityGrow.jpg)
 
 同一段代码，在不同输入的情况下，复杂度量级有可能是不一样的。所以，为了更加全面的表示代码的执行效率，引入最好情况时间复杂度、最坏情况时间复杂度、平均情况时间复杂度（加权平均时间复杂度）和均摊时间复杂度。
 
 
-## Review
-阅读并点评
+## Review：7 Things You Need To Stop Doing To Be More Productive, Backed By Science
+[文章地址](https://medium.com/s/story/7-things-you-need-to-stop-doing-to-be-more-productive-backed-by-science-a988c17383a6)
 
-## Tip
+作者首先介绍年轻时候的工作状态，然后在老的时候开始思考自己人生经历的不同阶段有什么不同。有时候，减少工作实际上能产生更好的结果。
+
+
+
+
+## Tip：
 技术归纳总结
 
-## Share
+## Share：
 分享有思考和观点的文章
