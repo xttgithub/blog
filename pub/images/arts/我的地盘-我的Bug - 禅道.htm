@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)http://120.55.225.31:18080/zentaopms/www/index.php?m=my&f=bug -->
+<html lang="zh-cn" class="os-mac screen-desktop-wide device-desktop not-firefox gr__120_55_225_31"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <title>我的地盘-我的Bug - 禅道</title>
+<script>window.config={"webRoot":"\/zentaopms\/www\/","debug":false,"appName":"","cookieLife":30,"requestType":"GET","requestFix":"-","moduleVar":"m","methodVar":"f","viewVar":"t","defaultView":"html","themeRoot":"\/zentaopms\/www\/theme\/","currentModule":"my","currentMethod":"bug","clientLang":"zh-cn","requiredFields":"","router":"\/zentaopms\/www\/index.php","save":"\u4fdd\u5b58","runMode":"","timeout":30000,"pingInterval":""};
+window.lang={"submitting":"\u7a0d\u5019...","save":"\u4fdd\u5b58","timeout":"\u8fde\u63a5\u8d85\u65f6\uff0c\u8bf7\u68c0\u67e5\u7f51\u7edc\u73af\u5883\uff0c\u6216\u91cd\u8bd5\uff01"};
+
+</script>
+<script>config.onlybody = "no";</script><link rel="stylesheet" href="./我的地盘-我的Bug - 禅道_files/zh-cn.default.css" type="text/css" media="screen">
+<script src="./我的地盘-我的Bug - 禅道_files/all.js"></script>
+<style>.dropdown-menu.with-search {padding: 0; min-width: 150px; overflow: hidden; max-height: 302px;}
+.dropdown-menu > .menu-search .input-group {width:100%;}
+.dropdown-menu > .menu-search .input-group-addon {position: absolute; right: 10px; top: 0; z-index: 10; background: none; border: none; color: #666}
+.dropdown-menu > .menu-search .form-control {border: none!important; box-shadow: none!important; border-top: 1px solid #ddd!important;}
+.dropdown-list {display: block; padding: 0; max-height: 270px; overflow-y: auto;}
+.dropdown-list > li > a {display: block; padding: 3px 20px; clear: both; font-weight: normal; line-height: 1.53846154; color: #141414; white-space: nowrap;}
+.dropdown-list > li > a:hover,
+.dropdown-list > li > a:focus {color: #1a4f85;text-decoration: none;background-color: #ddd;}
+
+.btn-toolbar .nav-title{float:left; display:inline-block; padding: 6px 12px; margin-bottom: 0; font-size: 13px; font-weight: bolder; line-height: 18px; text-align: center; white-space: nowrap; vertical-align: middle;}
+</style><link rel="icon" href="http://120.55.225.31:18080/zentaopms/www/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://120.55.225.31:18080/zentaopms/www/favicon.ico" type="image/x-icon">
+<!--[if lt IE 10]>
+<script src='/zentaopms/www/js/jquery/placeholder/min.js?v=11.6'></script>
+<![endif]-->
+</head>
+<body data-gr-c-s-loaded="true" class="m-my-bug">
+<script>
+var chooseUsersToMail    = '选择要发信通知的用户...';
+$(document).ready(function()
+{
+    $("#mailto").attr('data-placeholder', chooseUsersToMail);
+    $("#mailto, #productID").chosen();
+});
+</script>
+<script>
+$.extend($.fn.pager.Constructor.LANG, {
+    'zh-cn': {
+        'pageOfText': "第 {0} 页",
+        'prev': "上一页",
+        'next': "下一页",
+        'first': "第一页",
+        'last': "最后一页",
+        'goto': "跳转",
+        'pageOf': "第 <strong>{page}</strong> 页",
+        'totalPage': "共 <strong>{totalPage}</strong> 页",
+        'totalCount': "共 <strong>{recTotal}</strong> 项",
+        'pageSize': "每页 <strong>{recPerPage}</strong> 项",
+        'itemsRange': "第 <strong>{start}</strong> ~ <strong>{end}</strong> 项",
+        'pageOfTotal': "第 <strong>{page}</strong>/<strong>{totalPage}</strong> 页"
+    }
+});
+$.extend($.fn.colorPicker.Constructor.LANG, {
+    'zh-cn': {
+        'errorTip': "不是有效的颜色值"
+    }
+});
+</script>
+<header id="header">
+  <div id="mainHeader">
+    <div class="container">
+      <hgroup id="heading">
+                <h1 id="companyname" title="weixing"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=index&amp;f=index">weixing</a>
+</h1>
+      </hgroup>
+      <nav id="navbar"><ul class="nav nav-default">
+<li class="active" data-id="my"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=index" class="active"><span> 我的地盘</span></a></li>
+<li data-id="product"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=product&amp;f=index&amp;locate=no">产品</a></li>
+<li data-id="project"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=project&amp;f=index&amp;locate=no">项目</a></li>
+<li data-id="qa"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=qa&amp;f=index">测试</a></li>
+<li class="divider"></li><li data-id="doc"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=doc&amp;f=index">文档</a></li>
+<li data-id="report"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=report&amp;f=index">统计</a></li>
+<li class="divider"></li><li data-id="company"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=company&amp;f=index">组织</a></li>
+</ul>
+</nav>
+      <div id="toolbar">
+        <div id="userMenu">
+          <div id="searchbox"><div class="input-group"><div class="input-group-btn"><a data-toggle="dropdown" class="btn btn-link" style="border-radius: 2px 0px 0px 2px;"><span id="searchTypeName">Bug</span> <span class="caret"></span></a><input type="hidden" name="searchType" id="searchType" value="bug">
+<ul id="searchTypeMenu" class="dropdown-menu"><li class="selected"><a href="javascript:$.setSearchType(&quot;bug&quot;);" data-value="bug">Bug</a></li><li><a href="javascript:$.setSearchType(&quot;story&quot;);" data-value="story">需求</a></li><li><a href="javascript:$.setSearchType(&quot;task&quot;);" data-value="task">任务</a></li><li><a href="javascript:$.setSearchType(&quot;testcase&quot;);" data-value="testcase">用例</a></li><li><a href="javascript:$.setSearchType(&quot;project&quot;);" data-value="project">项目</a></li><li><a href="javascript:$.setSearchType(&quot;product&quot;);" data-value="product">产品</a></li><li><a href="javascript:$.setSearchType(&quot;user&quot;);" data-value="user">用户</a></li><li><a href="javascript:$.setSearchType(&quot;build&quot;);" data-value="build">版本</a></li><li><a href="javascript:$.setSearchType(&quot;release&quot;);" data-value="release">发布</a></li><li><a href="javascript:$.setSearchType(&quot;productplan&quot;);" data-value="productplan">产品计划</a></li><li><a href="javascript:$.setSearchType(&quot;testtask&quot;);" data-value="testtask">测试单</a></li><li><a href="javascript:$.setSearchType(&quot;doc&quot;);" data-value="doc">文档</a></li><li><a href="javascript:$.setSearchType(&quot;testsuite&quot;);" data-value="testsuite">用例库</a></li><li><a href="javascript:$.setSearchType(&quot;testreport&quot;);" data-value="testreport">测试报告</a></li></ul></div><input id="searchInput" class="form-control search-input" type="search" onclick="this.value=&quot;&quot;" onkeydown="if(event.keyCode==13) $.gotoObject();" placeholder="编号(ctrl+g)" style="border-radius: 0px 2px 2px 0px;"></div><a href="javascript:$.gotoObject();" class="btn btn-link" id="searchGo">GO!</a></div>
+          <ul id="userNav" class="nav nav-default">
+            <li><a class="dropdown-toggle" data-toggle="dropdown"><span class="user-name">赵腾</span><span class="caret"></span></a><ul class="dropdown-menu pull-right"><li class="user-profile-item"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=profile"><div class="avatar avatar bg-secondary avatar-circle">Z</div>
+<div class="user-profile-name">赵腾</div><div class="user-profile-role">研发</div></a></li><li class="divider"></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=profile">个人档案</a>
+</li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=changepassword&amp;onlybody=yes" class="iframe" data-width="500">更改密码</a>
+</li><li class="divider"></li><li class="dropdown-submenu"><a href="javascript:;">主题</a><ul class="dropdown-menu pull-left"><li class="selected"><a href="javascript:selectTheme(&quot;default&quot;);" data-value="default">禅道蓝（默认）</a></li><li><a href="javascript:selectTheme(&quot;green&quot;);" data-value="green">叶兰绿</a></li><li><a href="javascript:selectTheme(&quot;red&quot;);" data-value="red">赤诚红</a></li><li><a href="javascript:selectTheme(&quot;purple&quot;);" data-value="purple">玉烟紫</a></li><li><a href="javascript:selectTheme(&quot;pink&quot;);" data-value="pink">芙蕖粉</a></li><li><a href="javascript:selectTheme(&quot;blackberry&quot;);" data-value="blackberry">露莓黑</a></li><li><a href="javascript:selectTheme(&quot;classic&quot;);" data-value="classic">经典蓝</a></li></ul></li><li class="dropdown-submenu"><a href="javascript:;">Language</a><ul class="dropdown-menu pull-left"><li class="selected"><a href="javascript:selectLang(&quot;zh-cn&quot;);">简体</a></li><li><a href="javascript:selectLang(&quot;zh-tw&quot;);">繁體</a></li><li><a href="javascript:selectLang(&quot;en&quot;);">English</a></li><li><a href="javascript:selectLang(&quot;de&quot;);">Deutsch</a></li></ul></li><li class="custom-item"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=custom&amp;f=ajaxMenu&amp;module=my&amp;method=bug&amp;onlybody=yes" data-toggle="modal" data-type="iframe" data-icon="cog" data-width="80%">自定义导航</a></li><li class="divider"></li><li class="dropdown-submenu"><a data-toggle="dropdown">帮助</a><ul class="dropdown-menu pull-left"><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=tutorial&amp;f=start" class="iframe" data-class-name="modal-inverse" data-width="800" data-headerless="true" data-backdrop="true" data-keyboard="true">新手教程</a>
+</li><li><a href="https://www.zentao.net/book/zentaopmshelp.html?fullScreen=zentao" class="open-help-tab" target="_blank">手册</a>
+</li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=misc&amp;f=changeLog" class="iframe" data-width="800" data-headerless="true" data-backdrop="true" data-keyboard="true">修改日志</a>
+</li></ul></li>
+<li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=misc&amp;f=about" class="about iframe" data-width="950" data-headerless="true" data-backdrop="true" data-keyboard="true" data-class="modal-about">关于禅道</a>
+</li><li class="divider"></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=user&amp;f=logout">退出</a>
+</li></ul></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="subHeader">
+    <div class="container">
+      <div id="pageNav" class="btn-toolbar"></div>
+      <nav id="subNavbar"><ul class="nav nav-default" style="position: static;">
+<li class=" " data-id="index"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=index">首页</a>
+</li>
+<li class=" " data-id="calendar"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=calendar">日程</a>
+</li>
+<li class="divider"></li><li class=" " data-id="task"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=task">任务</a>
+</li>
+<li class=" active" data-id="bug"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug">Bug</a>
+</li>
+<li class=" " data-id="story"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=story">需求</a>
+</li>
+<li class="divider"></li><li class=" " data-id="myProject"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=project">项目</a>
+</li>
+<li class=" " data-id="dynamic"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=dynamic">动态</a>
+</li>
+<li class="divider"></li><li class=" " data-id="profile"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=profile">档案</a>
+</li>
+<li class=" " data-id="changePassword"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=changepassword&amp;onlybody=yes">密码</a>
+</li>
+<li class=" " data-id="manageContacts"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=managecontacts">联系人</a>
+</li>
+</ul>
+</nav>
+      <div id="pageActions"><div class="btn-toolbar"></div></div>
+    </div>
+  </div>
+  </header>
+
+<main id="main">
+  <div class="container">
+<div id="mainMenu" class="clearfix">
+  <div class="btn-toolbar pull-left">
+    <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo" class="btn btn-link btn-active-text"><span class="text">指派给</span> <span class="label label-light label-badge">5</span></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=openedBy" class="btn btn-link"><span class="text">由我创建</span></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=resolvedBy" class="btn btn-link"><span class="text">解决者</span></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=closedBy" class="btn btn-link"><span class="text">由我关闭</span></a>
+  </div>
+</div>
+<div id="mainContent">
+    <form id="myBugForm" class="main-table table-bug" data-ride="table" method="post" action="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=batchEdit&amp;productID=0">
+        <table class="table has-sort-head table-fixed" id="bugList">
+            <thead>
+        <tr>
+          <th class="w-100px" title="ID">
+                        <div class="checkbox-primary check-all" title="全选">
+              <label></label>
+            </div>
+                        <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=id_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="sort-down">ID</a>
+          </th>
+          <th class="w-50px" title="严重程度"> <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=severity_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">级别</a>
+</th>
+          <th class="w-50px" title="优先级"> <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=pri_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">P</a>
+</th>
+          <th class="w-type" title="类型">      <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=type_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">类型</a>
+</th>
+          <th title="Bug标题">                     <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=title_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">Bug标题</a>
+</th>
+          <th class="w-90px" title="创建">      <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=openedBy_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">创建</a>
+</th>
+          <th class="w-110px" title="指派给"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=assignedTo_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">指派给</a>
+</th>
+          <th class="w-100px" title="解决">      <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=resolvedBy_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">解决</a>
+</th>
+          <th class="w-100px" title="方案"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=resolution_asc&amp;recTotal=0&amp;recPerPage=20&amp;pageID=1" class="header">方案</a>
+</th>
+          <th class="c-actions-5" title="操作"> 操作</th>
+        </tr>
+      </thead>
+            <tbody>
+                <tr>
+          <td class="c-id">
+                        <div class="checkbox-primary">
+              <input type="checkbox" name="bugIDList[]" value="604">
+              <label></label>
+            </div>
+                        604          </td>
+          <td>
+                        <span class="label-severity" data-severity="3" title="3"></span>
+                      </td>
+          <td><span class="label-pri label-pri-3" title="3">3</span></td>
+          <td title="代码错误">代码错误</td>
+          <td class="text-left nobr"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=view&amp;bugID=604" style="color: " title="【" 管理后台_一车多司机】司机接到预约单，还没开始服务且未改派，此时换车，换车后改派，改派成功后，原订单里面的车辆信息还是换车前的车辆="">【 管理后台_一车多司机】司机接到预约单，还没开始服务且未改派，此时换车，换车后改派，改派成功后，原订单里面的车辆信息还是换车前的车辆</a>
+</td>
+          <td>孙祥晴</td>
+          <td class="c-assignedTo has-btn"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=assignTo&amp;bugID=604&amp;onlybody=yes" class="iframe btn btn-icon-left btn-sm "><i class="icon icon-hand-right"></i> <span title="zhaoteng" class="text-red">赵腾</span></a>
+</td>
+          <td></td>
+          <td></td>
+          <td class="c-actions">
+            <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=confirmBug&amp;bugID=604&amp;onlybody=yes" class="btn iframe" title="确认"><i class="icon-bug-confirmBug icon-confirm"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=resolve&amp;bugID=604&amp;onlybody=yes" class="btn iframe" title="解决"><i class="icon-bug-resolve icon-checked"></i></a>
+<button type="button" class="disabled btn iframe"><i class="icon-bug-close disabled icon-off" title="关闭"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=edit&amp;bugID=604" class="btn " title="编辑Bug"><i class="icon-common-edit icon-edit"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=create&amp;product=3&amp;branch=0&amp;extra=bugID=604" class="btn " title="复制Bug"><i class="icon-common-copy icon-copy"></i></a>
+          </td>
+        </tr>
+                <tr>
+          <td class="c-id">
+                        <div class="checkbox-primary">
+              <input type="checkbox" name="bugIDList[]" value="597">
+              <label></label>
+            </div>
+                        597          </td>
+          <td>
+                        <span class="label-severity" data-severity="2" title="2"></span>
+                      </td>
+          <td><span class="label-pri label-pri-2" title="2">2</span></td>
+          <td title="代码错误">代码错误</td>
+          <td class="text-left nobr"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=view&amp;bugID=597" style="color: " title="【退款】纯赠额支付订单，退款成功，订单详情页退款金额显示错误">【退款】纯赠额支付订单，退款成功，订单详情页退款金额显示错误</a>
+</td>
+          <td>范宇磊</td>
+          <td class="c-assignedTo has-btn"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=assignTo&amp;bugID=597&amp;onlybody=yes" class="iframe btn btn-icon-left btn-sm "><i class="icon icon-hand-right"></i> <span title="zhaoteng" class="text-red">赵腾</span></a>
+</td>
+          <td></td>
+          <td></td>
+          <td class="c-actions">
+            <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=confirmBug&amp;bugID=597&amp;onlybody=yes" class="btn iframe" title="确认"><i class="icon-bug-confirmBug icon-confirm"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=resolve&amp;bugID=597&amp;onlybody=yes" class="btn iframe" title="解决"><i class="icon-bug-resolve icon-checked"></i></a>
+<button type="button" class="disabled btn iframe"><i class="icon-bug-close disabled icon-off" title="关闭"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=edit&amp;bugID=597" class="btn " title="编辑Bug"><i class="icon-common-edit icon-edit"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=create&amp;product=1&amp;branch=5&amp;extra=bugID=597" class="btn " title="复制Bug"><i class="icon-common-copy icon-copy"></i></a>
+          </td>
+        </tr>
+                <tr>
+          <td class="c-id">
+                        <div class="checkbox-primary">
+              <input type="checkbox" name="bugIDList[]" value="596">
+              <label></label>
+            </div>
+                        596          </td>
+          <td>
+                        <span class="label-severity" data-severity="2" title="2"></span>
+                      </td>
+          <td><span class="label-pri label-pri-2" title="2">2</span></td>
+          <td title="代码错误">代码错误</td>
+          <td class="text-left nobr"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=view&amp;bugID=596" style="color: " title="【订单详情】" 订单个人本金+赠额支付成功，改费成功，未退赠额="">【订单详情】 订单个人本金+赠额支付成功，改费成功，未退赠额</a>
+</td>
+          <td>范宇磊</td>
+          <td class="c-assignedTo has-btn"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=assignTo&amp;bugID=596&amp;onlybody=yes" class="iframe btn btn-icon-left btn-sm "><i class="icon icon-hand-right"></i> <span title="zhaoteng" class="text-red">赵腾</span></a>
+</td>
+          <td></td>
+          <td></td>
+          <td class="c-actions">
+            <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=confirmBug&amp;bugID=596&amp;onlybody=yes" class="btn iframe" title="确认"><i class="icon-bug-confirmBug icon-confirm"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=resolve&amp;bugID=596&amp;onlybody=yes" class="btn iframe" title="解决"><i class="icon-bug-resolve icon-checked"></i></a>
+<button type="button" class="disabled btn iframe"><i class="icon-bug-close disabled icon-off" title="关闭"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=edit&amp;bugID=596" class="btn " title="编辑Bug"><i class="icon-common-edit icon-edit"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=create&amp;product=3&amp;branch=0&amp;extra=bugID=596" class="btn " title="复制Bug"><i class="icon-common-copy icon-copy"></i></a>
+          </td>
+        </tr>
+                <tr>
+          <td class="c-id">
+                        <div class="checkbox-primary">
+              <input type="checkbox" name="bugIDList[]" value="595">
+              <label></label>
+            </div>
+                        595          </td>
+          <td>
+                        <span class="label-severity" data-severity="2" title="2"></span>
+                      </td>
+          <td><span class="label-pri label-pri-2" title="2">2</span></td>
+          <td title="代码错误">代码错误</td>
+          <td class="text-left nobr"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=view&amp;bugID=595" style="color: " title="【免单】" 订单个人本金+赠额支付成功，免单成功，未退赠额="">【免单】 订单个人本金+赠额支付成功，免单成功，未退赠额</a>
+</td>
+          <td>范宇磊</td>
+          <td class="c-assignedTo has-btn"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=assignTo&amp;bugID=595&amp;onlybody=yes" class="iframe btn btn-icon-left btn-sm "><i class="icon icon-hand-right"></i> <span title="zhaoteng" class="text-red">赵腾</span></a>
+</td>
+          <td></td>
+          <td></td>
+          <td class="c-actions">
+            <a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=confirmBug&amp;bugID=595&amp;onlybody=yes" class="btn iframe" title="确认"><i class="icon-bug-confirmBug icon-confirm"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=resolve&amp;bugID=595&amp;onlybody=yes" class="btn iframe" title="解决"><i class="icon-bug-resolve icon-checked"></i></a>
+<button type="button" class="disabled btn iframe"><i class="icon-bug-close disabled icon-off" title="关闭"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=edit&amp;bugID=595" class="btn " title="编辑Bug"><i class="icon-common-edit icon-edit"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=create&amp;product=3&amp;branch=0&amp;extra=bugID=595" class="btn " title="复制Bug"><i class="icon-common-copy icon-copy"></i></a>
+          </td>
+        </tr>
+                <tr>
+          <td class="c-id">
+                        <div class="checkbox-primary">
+              <input type="checkbox" name="bugIDList[]" value="569">
+              <label></label>
+            </div>
+                        569          </td>
+          <td>
+                        <span class="label-severity" data-severity="2" title="2"></span>
+                      </td>
+          <td><span class="label-pri label-pri-3" title="3">3</span></td>
+          <td title="代码错误">代码错误</td>
+          <td class="text-left nobr"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=view&amp;bugID=569" style="color: " title="【企业WEB端】订单管理，导出的Excel内容为空">【企业WEB端】订单管理，导出的Excel内容为空</a>
+</td>
+          <td>范宇磊</td>
+          <td class="c-assignedTo has-btn"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=assignTo&amp;bugID=569&amp;onlybody=yes" class="iframe btn btn-icon-left btn-sm "><i class="icon icon-hand-right"></i> <span title="zhaoteng" class="text-red">赵腾</span></a>
+</td>
+          <td></td>
+          <td></td>
+          <td class="c-actions">
+            <button type="button" class="disabled btn iframe"><i class="icon-bug-confirmBug disabled icon-confirm" title="确认"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=resolve&amp;bugID=569&amp;onlybody=yes" class="btn iframe" title="解决"><i class="icon-bug-resolve icon-checked"></i></a>
+<button type="button" class="disabled btn iframe"><i class="icon-bug-close disabled icon-off" title="关闭"></i></button>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=edit&amp;bugID=569" class="btn " title="编辑Bug"><i class="icon-common-edit icon-edit"></i></a>
+<a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=bug&amp;f=create&amp;product=10&amp;branch=0&amp;extra=bugID=569" class="btn " title="复制Bug"><i class="icon-common-copy icon-copy"></i></a>
+          </td>
+        </tr>
+              </tbody>
+    </table>
+    <div class="table-footer" style="left: 0px; bottom: 0px;">
+            <div class="checkbox-primary check-all"><label>全选</label></div>
+            <div class="table-actions btn-toolbar">
+         <button type="button" class="btn" onclick="setFormAction(&#39;/zentaopms/www/index.php?m=bug&amp;f=batchEdit&#39;)">编辑</button>         <button type="button" class="btn" onclick="setFormAction(&#39;/zentaopms/www/index.php?m=bug&amp;f=batchConfirm&#39;, &#39;hiddenwin&#39;)">确认</button> <button type="button" class="btn" onclick="setFormAction(&#39;/zentaopms/www/index.php?m=bug&amp;f=batchClose&#39;, &#39;hiddenwin&#39;)">关闭</button>                <div class="btn-group dropup">
+          <button data-toggle="dropdown" type="button" class="btn" style="border-radius: 2px;">指派给 <span class="caret"></span></button>
+          <select name="assignedTo" id="assignedTo" class="hidden">
+<option value="" selected="selected" title="" data-keys=" "></option>
+<option value="chenhaifeng" title="陈海峰" data-keys="chenhaifeng chf">陈海峰</option>
+<option value="chenhongmin" title="陈洪敏" data-keys="chenhongmin chm">陈洪敏</option>
+<option value="chenjiekuan" title="陈节宽" data-keys="chenjiekuan cjk">陈节宽</option>
+<option value="chenmeng" title="陈猛" data-keys="chenmeng cm">陈猛</option>
+<option value="fanyulei" title="范宇磊" data-keys="fanyulei fyl">范宇磊</option>
+<option value="fuhao" title="付浩" data-keys="fuhao fh">付浩</option>
+<option value="honghu" title="洪湖" data-keys="honghu hh">洪湖</option>
+<option value="huangyulei" title="黄玉磊" data-keys="huangyulei hyl">黄玉磊</option>
+<option value="huxu" title="胡旭" data-keys="huxu hx">胡旭</option>
+<option value="huyuxiang" title="胡瑜翔" data-keys="huyuxiang hyx">胡瑜翔</option>
+<option value="limengru" title="李梦儒" data-keys="limengru lmr">李梦儒</option>
+<option value="liumingwu" title="刘明武" data-keys="liumingwu lmw">刘明武</option>
+<option value="luoxiao" title="罗肖" data-keys="luoxiao lx">罗肖</option>
+<option value="mahaoyang" title="马浩洋" data-keys="mahaoyang mhy">马浩洋</option>
+<option value="panxiaolong" title="潘小龙" data-keys="panxiaolong pxl">潘小龙</option>
+<option value="qiushengqiang" title="邱胜强" data-keys="qiushengqiang qsq">邱胜强</option>
+<option value="root" title="root" data-keys="root r">root</option>
+<option value="shirenchuang" title="石仁闯" data-keys="shirenchuang src">石仁闯</option>
+<option value="shiyaobang" title="施耀邦" data-keys="shiyaobang syb">施耀邦</option>
+<option value="shiyefeng" title="施烨烽" data-keys="shiyefeng syf">施烨烽</option>
+<option value="sunxiangqing" title="孙祥晴" data-keys="sunxiangqing sxq">孙祥晴</option>
+<option value="tanailing" title="谭爱玲" data-keys="tanailing tal">谭爱玲</option>
+<option value="tuweiliang" title="屠伟良" data-keys="tuweiliang twl">屠伟良</option>
+<option value="wangbo" title="王波" data-keys="wangbo wb">王波</option>
+<option value="wuyiwen" title="吴怡雯" data-keys="wuyiwen wyw">吴怡雯</option>
+<option value="xiaowei" title="肖未" data-keys="xiaowei xw">肖未</option>
+<option value="xujiaqi" title="徐佳琦" data-keys="xujiaqi xjq">徐佳琦</option>
+<option value="xuzhongqiang" title="许忠强" data-keys="xuzhongqiang xzq">许忠强</option>
+<option value="yangyingying" title="杨莹莹" data-keys="yangyingying yyy">杨莹莹</option>
+<option value="yuchao" title="余超" data-keys="yuchao yc">余超</option>
+<option value="zhangcaoyin" title="张曹胤" data-keys="zhangcaoyin zcy">张曹胤</option>
+<option value="zhanghuimin" title="张惠民" data-keys="zhanghuimin zhm">张惠民</option>
+<option value="zhangmingjian" title="张明剑" data-keys="zhangmingjian zmj">张明剑</option>
+<option value="zhaoteng" title="赵腾" data-keys="zhaoteng zt">赵腾</option>
+<option value="closed" title="Closed" data-keys="closed c">Closed</option>
+</select>
+<div class="dropdown-menu search-list search-box-sink" data-ride="searchList"><div class="input-control search-box has-icon-left has-icon-right search-example"><input id="userSearchBox" type="search" class="form-control search-input empty" autocomplete="off"><label for="userSearchBox" class="input-control-icon-left search-icon"><i class="icon icon-search"></i></label><a class="input-control-icon-right search-clear-btn"><i class="icon icon-close icon-sm"></i></a></div><div class="list-group"><a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;chenhaifeng&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="chenhaifeng chf @chenhaifeng" class="search-list-item active"><i class="icon icon-person icon-sm"></i> 陈海峰</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;chenhongmin&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="chenhongmin chm @chenhongmin" class="search-list-item"><i class="icon icon-person icon-sm"></i> 陈洪敏</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;chenjiekuan&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="chenjiekuan cjk @chenjiekuan" class="search-list-item"><i class="icon icon-person icon-sm"></i> 陈节宽</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;chenmeng&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="chenmeng cm @chenmeng" class="search-list-item"><i class="icon icon-person icon-sm"></i> 陈猛</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;fanyulei&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="fanyulei fyl @fanyulei" class="search-list-item"><i class="icon icon-person icon-sm"></i> 范宇磊</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;fuhao&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="fuhao fh @fuhao" class="search-list-item"><i class="icon icon-person icon-sm"></i> 付浩</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;honghu&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="honghu hh @honghu" class="search-list-item"><i class="icon icon-person icon-sm"></i> 洪湖</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;huangyulei&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="huangyulei hyl @huangyulei" class="search-list-item"><i class="icon icon-person icon-sm"></i> 黄玉磊</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;huxu&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="huxu hx @huxu" class="search-list-item"><i class="icon icon-person icon-sm"></i> 胡旭</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;huyuxiang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="huyuxiang hyx @huyuxiang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 胡瑜翔</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;limengru&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="limengru lmr @limengru" class="search-list-item"><i class="icon icon-person icon-sm"></i> 李梦儒</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;liumingwu&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="liumingwu lmw @liumingwu" class="search-list-item"><i class="icon icon-person icon-sm"></i> 刘明武</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;luoxiao&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="luoxiao lx @luoxiao" class="search-list-item"><i class="icon icon-person icon-sm"></i> 罗肖</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;mahaoyang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="mahaoyang mhy @mahaoyang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 马浩洋</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;panxiaolong&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="panxiaolong pxl @panxiaolong" class="search-list-item"><i class="icon icon-person icon-sm"></i> 潘小龙</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;qiushengqiang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="qiushengqiang qsq @qiushengqiang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 邱胜强</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;root&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="root r @root" class="search-list-item"><i class="icon icon-person icon-sm"></i> root</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;shirenchuang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="shirenchuang src @shirenchuang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 石仁闯</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;shiyaobang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="shiyaobang syb @shiyaobang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 施耀邦</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;shiyefeng&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="shiyefeng syf @shiyefeng" class="search-list-item"><i class="icon icon-person icon-sm"></i> 施烨烽</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;sunxiangqing&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="sunxiangqing sxq @sunxiangqing" class="search-list-item"><i class="icon icon-person icon-sm"></i> 孙祥晴</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;tanailing&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="tanailing tal @tanailing" class="search-list-item"><i class="icon icon-person icon-sm"></i> 谭爱玲</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;tuweiliang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="tuweiliang twl @tuweiliang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 屠伟良</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;wangbo&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="wangbo wb @wangbo" class="search-list-item"><i class="icon icon-person icon-sm"></i> 王波</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;wuyiwen&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="wuyiwen wyw @wuyiwen" class="search-list-item"><i class="icon icon-person icon-sm"></i> 吴怡雯</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;xiaowei&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="xiaowei xw @xiaowei" class="search-list-item"><i class="icon icon-person icon-sm"></i> 肖未</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;xujiaqi&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="xujiaqi xjq @xujiaqi" class="search-list-item"><i class="icon icon-person icon-sm"></i> 徐佳琦</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;xuzhongqiang&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="xuzhongqiang xzq @xuzhongqiang" class="search-list-item"><i class="icon icon-person icon-sm"></i> 许忠强</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;yangyingying&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="yangyingying yyy @yangyingying" class="search-list-item"><i class="icon icon-person icon-sm"></i> 杨莹莹</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;yuchao&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="yuchao yc @yuchao" class="search-list-item"><i class="icon icon-person icon-sm"></i> 余超</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;zhangcaoyin&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="zhangcaoyin zcy @zhangcaoyin" class="search-list-item"><i class="icon icon-person icon-sm"></i> 张曹胤</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;zhanghuimin&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="zhanghuimin zhm @zhanghuimin" class="search-list-item"><i class="icon icon-person icon-sm"></i> 张惠民</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;zhangmingjian&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="zhangmingjian zmj @zhangmingjian" class="search-list-item"><i class="icon icon-person icon-sm"></i> 张明剑</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;zhaoteng&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="zhaoteng zt @zhaoteng" class="search-list-item"><i class="icon icon-person icon-sm"></i> 赵腾</a>
+<a href="javascript:$(&quot;.table-actions #assignedTo&quot;).val(&quot;closed&quot;);setFormAction(&quot;/zentaopms/www/index.php?m=bug&amp;f=batchAssignTo&amp;productID=0&amp;type=my&quot;)" data-key="closed c @closed" class="search-list-item"><i class="icon icon-person icon-sm"></i> Closed</a>
+</div></div>        </div>
+              </div>
+      <ul class="pager" data-page-cookie="pagerMyBug" data-ride="pager" data-rec-total="5" data-rec-per-page="20" data-page="1" data-link-creator="/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=id_desc&amp;recTotal=5&amp;recPerPage={recPerPage}&amp;pageID={page}"><li><div class="pager-label">共 <strong>5</strong> 项</div></li><li><div class="btn-group pager-size-menu dropup"><button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border-radius: 2px;">每页 <strong>20</strong> 项 <span class="caret"></span></button><ul class="dropdown-menu"><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="5">5</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="10">10</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="15">15</a></li><li class="active"><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="20">20</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="25">25</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="30">30</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="35">35</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="40">40</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="45">45</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="50">50</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="100">100</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="200">200</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="500">500</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="1000">1000</a></li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###" data-size="2000">2000</a></li></ul></div></li><li class="active disabled pager-item-left"><a title="第 1 页" class="pager-item" data-page="1" href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=id_desc&amp;recTotal=5&amp;recPerPage=20&amp;pageID=1"><i class="icon icon-first-page"></i></a></li><li class="disabled pager-item-right"><a title="第 0 页" class="pager-item" data-page="0" href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###"><i class="icon icon-angle-left"></i></a></li><li><div class="pager-label"><strong>1</strong>/<strong>1</strong></div></li><li class="disabled pager-item-left"><a title="第 0 页" class="pager-item" data-page="0" href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug###"><i class="icon icon-angle-right"></i></a></li><li class="active disabled pager-item-right"><a title="第 1 页" class="pager-item" data-page="1" href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=bug&amp;type=assignedTo&amp;orderBy=id_desc&amp;recTotal=5&amp;recPerPage=20&amp;pageID=1"><i class="icon icon-last-page"></i></a></li></ul>    </div>
+  </form>
+  </div>
+<script>listName = "bugList";</script>
+</div><script>$.initSidebar()</script>
+
+<iframe frameborder="0" name="hiddenwin" id="hiddenwin" scrolling="no" class="debugwin hidden" src="./我的地盘-我的Bug - 禅道_files/saved_resource.html"></iframe>
+
+</main><footer id="footer">
+  <div class="container">
+    <ul class="breadcrumb"><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=index">禅道</a>
+</li><li><a href="http://120.55.225.31:18080/zentaopms/www/index.php?m=my&amp;f=index"><span> 我的地盘</span></a>
+</li><li class="active">我的Bug</li></ul>    <div id="poweredBy">
+      <small class="muted"><a href="https://api.zentao.net/goto.php?item=aiux" class="link-aiux" target="_blank">Designed by <strong>艾体验</strong></a></small> &nbsp;
+      <a href="https://www.zentao.net/" target="_blank"><i class="icon-zentao"></i> 禅道11.6</a> &nbsp;
+      <a href="https://api.zentao.net/goto.php?item=proversion&amp;from=footer" target="_blank" id="proLink" class="text-important">专业版 <i class="text-danger icon-pro-version"></i></a> &nbsp;           </div>
+  </div>
+</footer>
+<div id="noticeBox"></div>
+<script>
+browserNotice = '你目前使用的浏览器可能无法得到最佳浏览效果，建议使用Chrome、火狐、IE9+、Opera、Safari浏览器。'
+function ajaxIgnoreBrowser(){$.get(createLink('misc', 'ajaxIgnoreBrowser'));}
+$(function(){showBrowserNotice()});
+
+/* Alert get message. */
+$(function()
+{
+    var windowBlur = false;
+    if(window.Notification)
+    {
+        window.onblur  = function(){windowBlur = true;}
+        window.onfocus = function(){windowBlur = false;}
+    }
+    setInterval(function()
+    {
+        $.get(createLink('message', 'ajaxGetMessage', "windowBlur=" + (windowBlur ? '1' : '0')), function(data)
+        {
+            if(!windowBlur)
+            {
+                $('#noticeBox').append(data);
+                adjustNoticePosition();
+            }
+            else
+            {
+                if(data)
+                {
+                    if(typeof data == 'string') data = $.parseJSON(data);
+                    if(typeof data.message == 'string') notifyMessage(data);
+                }
+            }
+        });
+    }, 5 * 60 * 1000);
+})
+
+</script>
+
+<script>$(function() 
+{
+    var scp  = $('[data-id="changePassword"] a');
+    var sign = config.requestType == 'GET' ? '&' : '?';
+    scp.attr('href', scp.attr('href') + sign + 'onlybody=yes').modalTrigger({width:500, type:'iframe'});
+});
+
+</script>
+
+
+</body></html>
